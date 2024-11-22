@@ -44,33 +44,31 @@ L'applicazione TORVERBARBER mira a centralizzare le operazioni giornaliere di un
 
 ---
 
-TODO: Vincoli
+La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni negozio è gestito da un **manager**, che a sua volta riferisce al **responsabile di zona**. Quest'ultimo è in diretto contatto con il **CEO** e supervisiona più negozi in una stessa zona o città. Ogni ruolo all'interno dello staff ha responsabilità specifiche, con una scala retributiva definita e una progressione salariale basata sugli anni di servizio.
 
-Ciascun negozio deve essere gestito da un manager, che a sua volta dovrà fare rapporto al responsabile di zona, ovvero un manager che è in diretto contatto con il CEO e che ha il ruolo di gestire diversi negozi della stessa zona/città. Dunque lo staff è di tipo gerarchico/piramidale, perciò i stipendi variano da ruolo a ruolo, inoltre essite una costante `livello stipendiale` che moltiplicata al numero degli anni in azienda offre un aumento dello stipendio. Partendo dalla base abbiamo:
+#### Ruoli e Responsabilità
 
-TODO: implementare con una routine
+- **Receptionist:** Prima figura di contatto per i clienti, si occupano di accoglienza, gestione delle prenotazioni e supporto amministrativo. La crescita salariale segue una costante stipendiale pari a $1.01$ moltiplicata per gli anni di servizio.
 
-1. Receptionist con costante di livello stipendiale 1.01
-2. Barbiere con costante di livello stipendiale 1.02
-3. Manager con costante di livello stipendiale 1.03
-4. Responsabile di zona con costante di livello stipendiale 1.04
+- **Barbiere:** Responsabili dei servizi offerti ai clienti (tagli, trattamenti barba, ecc.). Lo stipendio cresce con una costante stipendiale di $1.02$.
 
+- **Manager del negozio:** Gestisce le operazioni quotidiane del negozio, come turni, inventario e fornitori. Lo stipendio è calcolato con una costante di $1.03$.
 
+- **Responsabile di zona:** Supervisiona più negozi in una zona, collabora con i manager e mantiene il contatto diretto con il CEO. La costante stipendiale è $1.04$.
 
-Staff - Ruolo
-
+- **CEO:** Guida l’azienda, definendo la strategia e supervisionando l'intera struttura. Lo stipendio è basato su contratti specifici e bonus performance, senza una costante stipendiale.
 
 ### Glossario delle entità
 
 |    Entità    |                            Descrizione                             |                           Attributi                            |              Relazioni Coinvolte              |
 |:------------:|:------------------------------------------------------------------:|:--------------------------------------------------------------:|:---------------------------------------------:|
 |   Negozio    |              Singolo negozio appartenente alla catena              |          **Id**, Nome, Indirizzo, Contatto Telefonico          |      Cliente, Staff, Inventario, Offerta      |
-|    Staff     |                  Ciascun dipendente della catena                   | **Id**, Nome, Cognome, DataAssunzione, DataNascita, Cellulare, Email, Password | Ruolo, Negozio, Feedback, Turno, Prenotazione |
+|    Staff     |                  Ciascun dipendente della catena                   | **Id**, Nome, Cognome, DataAssunzione, DataNascita, Cellulare, Email, Password, Stipendio | Ruolo, Negozio, Feedback, Turno, Prenotazione |
 |   Cliente    |                    Singolo cliente del negozio                     |       **Id**, Nome, Cognome, Cellulare, Email, Password        |    Prenotazione, Ordine, Feedback, Offerta    |
 | Prenotazione |          Richiesta di prenotazione effettuata dal cliente          |             **Id**, Data, Ora, Stato, NoteServizio             |   Cliente, Staff, Turno, Negozio, Feedback    |
 |    Turno     |           Descrizione dell'orario di lavoro dello staff            |                **Id**, OraInizio, OraFine, Data                |              Staff, Prenotazione              |
 |   Feedback   |         Recensione da parte del cliente verso il barbiere          |            **Id**, Voto, Commento, Data            |                 Prenotazione                  |
-|  Inventario  | Prodotti disponibili alla vendita e all'uso quotidiano del negozio |         **IdProdotto**, Nome, Quantità, PrezzoAcquisto         |           Negozio, Ordine, Offerta            |
+|  Inventario  | Prodotti disponibili alla vendita e all'uso quotidiano del negozio |         **Id**, Nome, Quantità, PrezzoAcquisto         |           Negozio, Ordine, Offerta            |
 |    Ordine    |                   Ordini effettuati dai clienti                    |                      **Id**, Data, Stato                       |         Cliente, Negozio, Inventario          |
 |   Offerta    |        Descrizione delle offerte a disposizione dei clienti        |           **Id**, Inizio, Fine, Sconto, Descrizione            |              Inventario, Negozio              |
 |    Ruolo     |      Descrive i ruoli e gli stipendi dello Staff della catena      |                 **Id**, Tipo, LivelloStipendio                 |                     Staff                     |
