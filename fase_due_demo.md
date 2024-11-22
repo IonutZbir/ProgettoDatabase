@@ -46,12 +46,26 @@ L'applicazione TORVERBARBER mira a centralizzare le operazioni giornaliere di un
 
 TODO: Vincoli
 
+Ciascun negozio deve essere gestito da un manager, che a sua volta dovrà fare rapporto al responsabile di zona, ovvero un manager che è in diretto contatto con il CEO e che ha il ruolo di gestire diversi negozi della stessa zona/città. Dunque lo staff è di tipo gerarchico/piramidale, perciò i stipendi variano da ruolo a ruolo, inoltre essite una costante `livello stipendiale` che moltiplicata al numero degli anni in azienda offre un aumento dello stipendio. Partendo dalla base abbiamo:
+
+TODO: implementare con una routine
+
+1. Receptionist con costante di livello stipendiale 1.01
+2. Barbiere con costante di livello stipendiale 1.02
+3. Manager con costante di livello stipendiale 1.03
+4. Responsabile di zona con costante di livello stipendiale 1.04
+
+
+
+Staff - Ruolo
+
+
 ### Glossario delle entità
 
 |    Entità    |                            Descrizione                             |                           Attributi                            |              Relazioni Coinvolte              |
 |:------------:|:------------------------------------------------------------------:|:--------------------------------------------------------------:|:---------------------------------------------:|
 |   Negozio    |              Singolo negozio appartenente alla catena              |          **Id**, Nome, Indirizzo, Contatto Telefonico          |      Cliente, Staff, Inventario, Offerta      |
-|    Staff     |                  Ciascun dipendente della catena                   | **Id**, Nome, Cognome, DataNascita, Cellulare, Email, Password | Ruolo, Negozio, Feedback, Turno, Prenotazione |
+|    Staff     |                  Ciascun dipendente della catena                   | **Id**, Nome, Cognome, DataAssunzione, DataNascita, Cellulare, Email, Password | Ruolo, Negozio, Feedback, Turno, Prenotazione |
 |   Cliente    |                    Singolo cliente del negozio                     |       **Id**, Nome, Cognome, Cellulare, Email, Password        |    Prenotazione, Ordine, Feedback, Offerta    |
 | Prenotazione |          Richiesta di prenotazione effettuata dal cliente          |             **Id**, Data, Ora, Stato, NoteServizio             |   Cliente, Staff, Turno, Negozio, Feedback    |
 |    Turno     |           Descrizione dell'orario di lavoro dello staff            |                **Id**, OraInizio, OraFine, Data                |              Staff, Prenotazione              |
