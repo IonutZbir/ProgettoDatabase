@@ -1,68 +1,95 @@
 # Alcune note
 
-- triggers
+## Triggers
+
+1. Quando si aggiunge un feedback, controllare che si fa riferimento ad un barbiere. `Check Staff.Tipo == Barbiere`
+1. Quando si aggiunge una zona, controllare che gli venga associato un responsabile di zona `Check Staff.Tipo == Responsabile Zona`
+
 - implemetare una routine per il calocolo del stipendio
 
-## Alcune cose da migliorare
+## Alcuni appunti su
 
-Il progetto è già ben strutturato, ma ci sono alcune migliorie e precisazioni che potrebbero rendere la documentazione più chiara e funzionale:
+- Diagramma Entity-Relationship
+    a. Schema scheletro
+    b. 1° livello di raffinamento
+    c. Schema concettuale non ristrutturato
+    d. Schema finale ristrutturato
 
-1. Glossario delle entità
+Le fasi descritte per il Diagramma Entity-Relationship (E-R) si riferiscono ai passaggi progressivi della progettazione concettuale del database, partendo da una struttura di base (schema scheletro) fino ad arrivare a una versione ristrutturata ottimizzata. Ecco cosa significa ciascun punto:
+a. Schema scheletro
 
-Alcuni attributi e relazioni potrebbero essere meglio specificati per facilitare la progettazione concettuale e logica. Di seguito alcune osservazioni:
+    È una prima versione del diagramma E-R, molto semplice e minimale.
+    Contiene solo le entità principali e le loro relazioni fondamentali, senza approfondire dettagli sugli attributi, vincoli o ulteriori relazioni.
+    Serve per identificare:
+        Quali sono le entità chiave del sistema.
+        Le relazioni principali tra queste entità.
 
-    Entità "Staff"
-        Attributo "Password": considererei rinominarlo in "HashPassword" per riflettere una pratica sicura di gestione delle credenziali.
-        Relazione con "Feedback": potrebbe essere utile chiarire che il feedback è legato al ruolo di Barbiere, dato che non tutti i ruoli dello staff ricevono valutazioni dirette dai clienti.
+Esempio per TORVERBARBER: Entità principali:
 
-    Entità "Turno"
-        Gli attributi "OraInizio" e "OraFine" potrebbero essere sostituiti o affiancati da un attributo "Durata" per semplificare alcune analisi.
+    Negozio, Staff, Cliente, Prenotazione, Servizio.
 
-    Entità "Prenotazione"
-        Considerare l'inclusione di un attributo "ServiziRichiesti" che indichi i tipi di servizio richiesti nella prenotazione (ad esempio, barba, capelli, ecc.). Questo migliorerebbe la precisione delle statistiche sui servizi.
+Relazioni fondamentali:
 
-    Entità "Servizio"
-        Gli attributi "Prezzo" e "Durata" potrebbero variare in base al negozio o al barbiere. Potrebbe essere utile aggiungere un'entità associativa per gestire queste variazioni.
+    "Un Cliente effettua una Prenotazione."
+    "Uno Staff lavora per un Negozio."
 
-    Entità "Inventario"
-        Aggiungere un attributo "Categoria" (es. prodotti per capelli, prodotti per barba) per migliorare l’organizzazione dei prodotti.
+b. 1° livello di raffinamento
 
-2. Nuove entità o relazioni
+    Aggiunge maggiore dettaglio rispetto allo schema scheletro:
+        Inserimento degli attributi principali per le entità.
+        Specifica delle cardinalità (es. 1:1, 1:N, N:M) per le relazioni.
+        Introduzione di ulteriori relazioni derivanti dall'analisi dei vincoli.
 
-Potrebbero essere utili le seguenti integrazioni:
+Esempio per TORVERBARBER:
 
-    Entità "Zona"
-        Descrizione: rappresenta una zona geografica supervisionata da un responsabile di zona.
-        Attributi: IdZona, NomeZona.
-        Relazioni: collegata a "Negozio" e "Responsabile di zona".
+    Per l'entità Staff, potresti aggiungere gli attributi: Nome, Ruolo, LivelloEsperienza.
+    Per la relazione Effettua (Cliente - Prenotazione), potresti indicare che un Cliente può effettuare più Prenotazioni (1:N).
 
-    Relazione "Preferenza" (Cliente ↔ Barbiere)
-        Descrizione: per gestire la possibilità di scegliere un barbiere preferito.
-        Attributi: Id, DataUltimaScelta.
+c. Schema concettuale non ristrutturato
 
-    Relazione "Barbiere ↔ Servizio"
-        Descrizione: per mappare quali servizi un barbiere è qualificato a eseguire.
-        Attributi: Id, LivelloEsperienza (es. Junior, Senior, Master).
+    È una versione completa e dettagliata del diagramma E-R:
+        Contiene tutte le entità, attributi e relazioni.
+        Rappresenta anche vincoli complessi, come vincoli di integrità, specializzazioni o generalizzazioni.
+        Non include ancora ottimizzazioni, quindi possono esserci ridondanze o strutture meno efficienti.
 
-3. Coerenza e ottimizzazione
+Esempio per TORVERBARBER:
 
-    Ruolo del "Responsabile di zona":
-        Fornire più dettagli sulla relazione tra il responsabile di zona e i negozi, magari distinguendo il controllo operativo da quello strategico.
+    Potresti avere entità come Feedback o Turno, ognuna con i propri attributi.
+    La relazione Assegna tra Negozio e Staff potrebbe includere informazioni sui turni di lavoro.
 
-    Feedback
-        Aggiungere un riferimento alla prenotazione o al servizio specifico per collegare il feedback a un’esperienza concreta.
+d. Schema finale ristrutturato
 
-    Stipendio dello Staff
-        Considerare di rappresentare gli stipendi non solo come costanti, ma come entità "PacchettoRetributivo" che includa eventuali bonus o premi.
+    È una versione ottimizzata dello schema concettuale, pronta per essere trasformata in uno schema logico.
+    Vengono applicate tecniche di ristrutturazione:
+        Eliminazione di ridondanze.
+        Semplificazione di relazioni complesse.
+        Uso di entità deboli se necessario.
+        Partizionamento o accorpamento di entità e relazioni per garantire chiarezza e coerenza.
 
-4. Obiettivi del progetto
+Esempio per TORVERBARBER:
 
-    Potrebbe essere utile esplicitare alcuni obiettivi specifici che coinvolgono l'integrazione con tecnologie moderne, ad esempio:
-        Integrazione con sistemi di pagamento online.
-        Uso di notifiche push o e-mail per promemoria e promozioni.
-        Applicazione mobile per una migliore esperienza cliente.
+    La relazione "Effettua" (Cliente - Prenotazione) potrebbe includere anche il riferimento al Servizio prenotato.
+    Se ci sono vincoli complessi (es. un barbiere può lavorare in un solo negozio), questi vengono formalizzati nello schema.
 
-5. Altri dettagli
+Riassunto
 
-    Scalabilità: definire la gestione di più negozi in crescita.
-    Privacy: includere note sulla protezione dei dati, visto l'uso di informazioni sensibili come e-mail e numeri di cellulare.
+    Schema scheletro: Identifica solo entità e relazioni principali.
+    1° livello di raffinamento: Aggiunge attributi e cardinalità.
+    Schema concettuale non ristrutturato: Modello dettagliato con tutti gli elementi, ma senza ottimizzazioni.
+    Schema finale ristrutturato: Versione ottimizzata per eliminare ridondanze e facilitare la progettazione logica.
+
+## Scelta delle chiavi primarie
+
+Motivazione per l'uso di chiavi univoche (ID)
+
+Nel progetto TORVERBARBER, abbiamo deciso di adottare una chiave primaria univoca per ogni entità del sistema (come Negozio_Id, Staff_Id, Cliente_Id, ecc.). Questa scelta è stata guidata da diverse considerazioni progettuali:
+
+    Univocità e chiarezza: L'utilizzo di un ID numerico o alfanumerico univoco per ciascuna entità garantisce che ogni record sia identificato in modo unico e preciso. Questo elimina il rischio di confusione e conflitti, particolarmente in entità che potrebbero avere attributi simili o identici (ad esempio, due negozi con lo stesso nome ma in città diverse).
+
+    Semplicità nelle relazioni: Le chiavi esterne basate su ID, come Negozio_Id, Staff_Id e Cliente_Id, semplificano le relazioni tra le entità. In un sistema con molte entità e interazioni, l'uso di ID rende più facile collegare, aggiornare e mantenere le informazioni tra le tabelle, senza dover gestire combinazioni di più attributi per ogni relazione.
+
+    Flessibilità e manutenzione: L'adozione di chiavi univoche consente una maggiore flessibilità nelle modifiche future del sistema. Ad esempio, se un negozio cambia nome o indirizzo, non è necessario aggiornare tutte le tabelle e le relazioni collegate, poiché l'ID rimane invariato. Questo riduce la complessità e il rischio di errori.
+
+    Efficienza nelle operazioni: Le chiavi numeriche o alfanumeriche sono più rapide da indicizzare e confrontare rispetto a chiavi composte (formate da più attributi), il che migliora le prestazioni durante l'esecuzione delle query e delle operazioni di join nel database.
+
+    Scalabilità: L'uso di chiavi univoche permette di gestire facilmente l'espansione del sistema. Con l'aumentare del numero di entità e record, la gestione delle chiavi diventa sempre più semplice rispetto all'uso di chiavi composte, che potrebbero diventare difficili da mantenere man mano che il sistema cresce.
