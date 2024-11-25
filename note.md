@@ -7,6 +7,16 @@
 
 - implemetare una routine per il calocolo del stipendio
 
+Una movimentazione ha attributi propri, come:
+
+    Tipo (Entrata/Uscita).
+    Data.
+    Quantità.
+    Motivo (ad esempio, vendita, scarto, reso, fornitura).
+    Inventario_Id e Negozio_Id per contestualizzarla.
+
+Questi dettagli non sono propriamente attributi dell'entità Inventario, ma descrivono azioni compiute su di esso.
+
 ## Alcuni appunti su
 
 - Diagramma Entity-Relationship

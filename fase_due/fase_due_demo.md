@@ -29,7 +29,7 @@ L'applicazione **TORVERBARBER** mira a centralizzare le operazioni giornaliere d
     - L’applicazione include anche un sistema di notifiche personalizzate. I clienti riceveranno promozioni esclusive e offerte dedicate, con l'obiettivo di incentivare il loro ritorno. Ad esempio, dopo aver completato 10 tagli, il cliente potrà ricevere un taglio gratuito come premio per la sua fedeltà.
 
     - Infine, i clienti avranno la possibilità di lasciare feedback e valutazioni sui servizi ricevuti. Questa funzionalità non solo permette loro di esprimere la propria opinione, ma aiuta anche il negozio a migliorare la qualità dei servizi offerti, rendendo il processo di miglioramento continuo un pilastro centrale dell’esperienza cliente.
-2. **Staff**
+2. **Dipendenti**
     L'applicazione offre strumenti dedicati allo staff, che è suddiviso in due categorie principali: dipendenti e manager. Ogni ruolo ha accesso a funzionalità personalizzate, progettate per ottimizzare le operazioni quotidiane.
 
     - I **barbieri** rappresentano il cuore operativo di ogni negozio. Attraverso l’applicazione, possono accedere facilmente al proprio profilo e visualizzare le prenotazioni che li riguardano. Hanno inoltre a disposizione un calendario aggiornato che consente loro di consultare i turni di lavoro, così da pianificare la giornata in modo efficiente. Inoltre, i barbieri possono registrare i servizi offerti ai clienti, che verranno automaticamente collegati al profilo del cliente per garantire uno storico dettagliato.
@@ -65,7 +65,7 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
 |    **Entità**    |                                                            **Descrizione**                                                            |      **Sinonimi**       |
 |:----------------:|:-------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------:|
 |   **Negozio**    |         Punto vendita fisico appartenente alla catena di barberie, in cui si offrono servizi di taglio e vendita di prodotti          | Barberia, Punto Vendita |
-|    **Staff**     |             Dipendenti che lavorano all'interno della catena, con ruoli specifici (barbiere, receptionist, manager, ecc.)             |  Dipendenti, Personale  |
+|    **Dipendente**     |             Dipendenti che lavorano all'interno della catena, con ruoli specifici (barbiere, receptionist, manager, ecc.)             |  Staff, Personale  |
 |   **Cliente**    |         Utente che usufruisce dei servizi della catena, registrandosi tramite il sistema per prenotare o acquistare prodotti          |   Utente, Consumatore   |
 | **Prenotazione** |        Richiesta di appuntamento effettuata dal cliente per uno o più servizi in un negozio specifico, a un orario determinato        |  Appuntamento, Booking  |
 |    **Turno**     |                          Orario lavorativo assegnato ai membri dello staff per svolgere le proprie mansioni                           |    Orario Lavorativo    |
@@ -105,21 +105,28 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
     6.2 Le prenotazioni non possono essere effettuate per orari al di fuori degli orari di apertura del negozio.
     6.3 Una prenotazione deve includere almeno un servizio.
     6.4 Lo stato di una prenotazione deve essere definito come uno tra: Confermata, Annullata, Completata.
-7. **Inventario**
+7. **Entrata**
+    7.1 Ogni entrata deve avere una data e un importo.
+    7.2 L'importo non può essere negativo.
+    7.3 Ogni entrata deve essere legata a un negozio.
+8. **Inventario**
     7.1 Ogni negozio deve avere un inventario associato.
     7.2 Le quantità dei prodotti in inventario non possono essere negative.
     7.3 Ogni prodotto deve appartenere a una categoria (es. shampoo, accessori, ecc.).
-8. **Offerte**
+    7.4 Ogni prodotto può essere di 3 tipi: Interno, Vendita, Entrambi
+9. **Movimentazioni**
+    8.1 Ogni operazione avvenuta nell'inventario può essere di tipo: Acquisto, Reso, Vendita, Fornire
+10. **Offerte**
     8.1 Ogni offerta deve essere valida per un periodo di tempo specificato.
     8.2 Le offerte possono essere associate a uno o più negozi.
-9. **Ruoli**
+11. **Ruoli**
     9.1 Ogni membro dello staff deve avere un ruolo definito (es. Barbiere, Receptionist, Manager, ecc.).
     9.2 Ogni ruolo ha una scala salariale associata, con incrementi basati sugli anni di servizio.
-10. **Ordini**
+12. **Ordini**
     10.1 Gli ordini possono essere effettuati solo dai clienti registrati.
     10.2 Gli ordini devono includere almeno un prodotto disponibile nell'inventario.
     10.3 Gli ordini possono essere ritirati solo nel negozio associato.
-11. **Relazioni Gerarchiche**
+13. **Relazioni Gerarchiche**
     11.1 Ogni negozio deve avere un manager assegnato.
     11.2 Ogni manager deve rispondere al responsabile di zona per la propria area.
     11.3 Il CEO supervisiona i responsabili di zona, mantenendo una visione globale dell'azienda.
@@ -128,20 +135,22 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
 
 ### Glossario delle entità
 
-|    Entità    |                                                              Descrizione                                                              |                                         Attributi                                         |                       Relazioni Coinvolte                        |
-|:------------:|:-------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:----------------------------------------------------------------:|
-|   Negozio    |         Punto vendita fisico appartenente alla catena di barberie, in cui si offrono servizi di taglio e vendita di prodotti          |                       **Negozio_Id**, Nome, Indirizzo, Contatto Telefonico                        |               Cliente, Staff, Inventario, Offerta                |
-|    Staff     |             Dipendenti che lavorano all'interno della catena, con ruoli specifici (barbiere, receptionist, manager, ecc.)             | **Staff_Id**, Nome, Cognome, DataAssunzione, DataNascita, Cellulare, Email, Password, Stipendio | Ruolo, Negozio, Feedback, Turno, Prenotazione, Cliente, Servizio |
-|   Cliente    |         Utente che usufruisce dei servizi della catena, registrandosi tramite il sistema per prenotare o acquistare prodotti          |                     **Cliente_Id**, Nome, Cognome, Cellulare, Email, Password                     |          Prenotazione, Ordine, Feedback, Offerta, Staff          |
-| Prenotazione |        Richiesta di appuntamento effettuata dal cliente per uno o più servizi in un negozio specifico, a un orario determinato        |                          **Prenotazione_Id**, Data, Ora, Stato, NoteServizio                           |             Cliente, Staff, Turno, Negozio, Feedback             |
-|    Turno     |                          Orario lavorativo assegnato ai membri dello staff per svolgere le proprie mansione                           |                             **Turno_Id**, OraInizio, OraFine, Data                              |                       Staff, Prenotazione                        |
-|   Feedback   |                 Valutazione lasciata dal cliente dopo aver usufruito di un servizio. Comprende un voto e un commento                  |                               **Feedback_Id**, Voto, Commento, Data                                |                           Prenotazione                           |
-|  Inventario  |                  Lista dei prodotti disponibili in un negozio, sia per la vendita sia per l'uso interno nei servizi.                  |                     **Inventario_Id**, Nome, Quantità, PrezzoAcquisto, Categoria                     |                     Negozio, Ordine, Offerta                     |
-|    Ordine    |                             Acquisto di uno o più prodotti effettuato dal cliente, da ritirare in negozio                             |                                    **Ordine_Id**, Data, Ora Stato                                    |                   Cliente, Negozio, Inventario                   |
-|     Zona     |                        Area geografica supervisionata da un responsabile di zona, che include uno o più negozi                        |                                       **Zona_Id**, Nome                                        |                          Staff, Negozio                          |
-|   Offerta    |                                Promozione temporanea o sconto su prodotti o servizi offerti ai clienti                                |                         **Offerta_Id**, Inizio, Fine, Sconto, Descrizione                         |                       Inventario, Negozio                        |
-|    Ruolo     | Posizione lavorativa all'interno dello staff (es. Barbiere Junior, Manager, Receptionist), associata a specifiche mansioni e stipendi |                              **Ruolo_Id**, Tipo, LivelloStipendio                               |                              Staff                               |
-|   Servizio   |        Tipologia di prestazione offerta ai clienti (es. taglio capelli, trattamento barba, ecc.), con prezzi e durate definite        |                         **Servizio_Id**, Tipo, Prezzo, Durata, Descrizione                         |                       Prenotazione, Staff                        |
+|     Entità     |                                                              Descrizione                                                              |                                            Attributi                                             |                       Relazioni Coinvolte                        |
+|:--------------:|:-------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------:|
+|    Negozio     |         Punto vendita fisico appartenente alla catena di barberie, in cui si offrono servizi di taglio e vendita di prodotti          |                            **Negozio_Id**, Nome, Indirizzo, Telefono                             |  Dipendente, Inventario, Offerta, Prenotazione, Movimentazioni, Zona, Ordine   |
+|   Dipendente   |             Dipendenti che lavorano all'interno della catena, con ruoli specifici (barbiere, receptionist, manager, ecc.)             | **Matricola**, Nome, Cognome, DataAssunzione, DataNascita, Cellulare, Email, Password, Stipendio | Ruolo, Negozio, Feedback, Turno, Prenotazione, Cliente, Servizio |
+|    Cliente     |         Utente che usufruisce dei servizi della catena, registrandosi tramite il sistema per prenotare o acquistare prodotti          |                    **Cliente_Id**, Nome, Cognome, Cellulare, Email, Password                     |       Prenotazione, Ordine, Feedback, Offerta, Dipendente        |
+|  Prenotazione  |        Richiesta di appuntamento effettuata dal cliente per uno o più servizi in un negozio specifico, a un orario determinato        |                       **Prenotazione_Id**, Data, Ora, Stato, NoteServizio                        |          Cliente, Dipendente, Turno, Negozio, Feedback           |
+|    Entrata     |                              Storico di tutte le entrate, sia dalla vendità dei prodotti che da servizi                               |                **Entrata_Id**, Data, Importo, Tipo, MetodoPagamento, Descrizione                 |                 Prenotazione, Inventario, Negozio                  |
+|     Turno      |                          Orario lavorativo assegnato ai membri dello staff per svolgere le proprie mansione                           |                              **Turno_Id**, OraInizio, OraFine, Data                              |                     Dipendente, Prenotazione                     |
+|    Feedback    |                 Valutazione lasciata dal cliente dopo aver usufruito di un servizio. Comprende un voto e un commento                  |                              **Feedback_Id**, Voto, Commento, Data                               |                           Prenotazione                           |
+|   Inventario   |                  Lista dei prodotti disponibili in un negozio, sia per la vendita sia per l'uso interno nei servizi.                  |   **Inventario_Id**, Prodotto, Quantità, PrezzoAcquisto, PrezzoVendità Categoria, TipoProdotto   |             Negozio, Ordine, Movimentazioni, Offerta             |
+| Movimentazioni |                                   Storico delle operazioni avvenute in un inventario di un negozio.                                   |                       **Movimentazioni_Id**, Tipo, Data, Quantità, Motivo                        |                       Negozio, Inventario                        |
+|     Ordine     |                             Acquisto di uno o più prodotti effettuato dal cliente, da ritirare in negozio                             |                                  **Ordine_Id**, Data, Ora Stato                                  |                   Cliente, Negozio, Inventario                   |
+|      Zona      |                        Area geografica supervisionata da un responsabile di zona, che include uno o più negozi                        |                                        **Zona_Id**, Nome                                         |                       Dipendente, Negozio                        |
+|    Offerta     |                                Promozione temporanea o sconto su prodotti o servizi offerti ai clienti                                |                        **Offerta_Id**, Inizio, Fine, Sconto, Descrizione                         |                       Negozio, Inventario                        |
+|     Ruolo      | Posizione lavorativa all'interno dello staff (es. Barbiere Junior, Manager, Receptionist), associata a specifiche mansioni e stipendi |                               **Ruolo_Id**, Tipo, LivelloStipendio                               |                            Dipendente                            |
+|    Servizio    |        Tipologia di prestazione offerta ai clienti (es. taglio capelli, trattamento barba, ecc.), con prezzi e durate definite        |                        **Servizio_Id**, Tipo, Prezzo, Durata, Descrizione                        |                     Prenotazione, Dipendente                     |
 
 ---
 
@@ -155,4 +164,39 @@ Sono state individuate le seguenti entità principali. Lo *Staff* lavora in un *
 
 #### Raffinamenti
 
-1. Inziamo con raffinare l'entità **Negozio**.
+##### Inziamo con raffinare l'entità **Negozio**
+
+1. **Negozio - Dipendente**
+   - **Relazione:** *Gestisce*  
+   - **Cardinalità:** 1 a N (Un negozio può avere più dipendenti; ogni dipendente appartiene a un solo negozio).  
+   - **Descrizione:** Ogni negozio è associato a un team di dipendenti che comprende barbieri, receptionist e il manager del negozio. Questi dipendenti operano esclusivamente nel negozio di appartenenza e svolgono le proprie mansioni in base al ruolo assegnato.
+2. **Negozio - Prenotazione**
+   - **Relazione:** *Riceve*  
+   - **Cardinalità:** 1 a N (Un negozio può ricevere più prenotazioni; ogni prenotazione è associata a un solo negozio).  
+   - **Descrizione:** I clienti effettuano prenotazioni presso un negozio specifico per usufruire di servizi come taglio di capelli o trattamenti. Ogni prenotazione include dettagli come data, orario e il dipendente selezionato per il servizio.
+3. **Negozio - Zona**
+   - **Relazione:** *Appartiene a*  
+   - **Cardinalità:** N a 1 (Un negozio appartiene a una sola zona; una zona può includere più negozi).  
+   - **Descrizione:** Ogni negozio è situato in una zona geografica specifica, gestita da un responsabile di zona. La zona facilita il coordinamento strategico e operativo tra più negozi appartenenti alla stessa area.  
+4. **Negozio - Inventario**
+   - **Relazione:** *Contiene*  
+   - **Cardinalità:** 1 a 1 (Ogni negozio ha un inventario unico; l'inventario appartiene a un solo negozio).  
+   - **Descrizione:** Ogni negozio dispone di un inventario in cui sono tracciati i prodotti disponibili per la vendita o l'uso interno. L'inventario è continuamente aggiornato attraverso operazioni come acquisti, resi e vendite.
+5. **Negozio - Offerta**
+   - **Relazione:** *Propone*  
+   - **Cardinalità:** 1 a N (Un negozio può proporre più offerte; un’offerta può essere valida per più negozi).  
+   - **Descrizione:** I negozi possono proporre promozioni o sconti specifici per attrarre clienti. Queste offerte possono essere limitate a un negozio o estese a più negozi, in base alle strategie aziendali.  
+6. **Negozio - Ordine**
+   - **Relazione:** *Evade*  
+   - **Cardinalità:** 1 a N (Un negozio può evadere più ordini; un ordine è associato a un solo negozio).  
+   - **Descrizione:** I clienti possono acquistare prodotti direttamente presso un negozio o ordinare online, scegliendo il negozio in cui ritirare gli articoli acquistati.
+7. **Negozio - Entrata**
+   - **Relazione:** *Genera*  
+   - **Cardinalità:** 1 a N (Un negozio può registrare più entrate; ogni entrata è associata a un solo negozio).  
+   - **Descrizione:** Ogni negozio genera entrate derivanti da servizi forniti e prodotti venduti. Questi dati sono tracciati per analizzare le performance economiche del negozio.
+8. **Negozio - Movimentazioni**
+   - **Relazione:** *Registra*  
+   - **Cardinalità:** 1 a N (Un negozio può registrare più movimentazioni; ogni movimentazione è associata a un solo negozio).  
+   - **Descrizione:** Le movimentazioni dell'inventario, come acquisti di prodotti, resi o vendite, sono registrate per tenere traccia delle variazioni delle scorte in un negozio.  
+
+![ER Scheletro](images/rifinitura_negozio.png){width="500" style="display: block; margin: 0 auto"}
