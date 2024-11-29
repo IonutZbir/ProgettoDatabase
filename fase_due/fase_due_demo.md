@@ -62,10 +62,6 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
 
 ### Glossario dei termini
 
-### Glossario dei termini (completo)
-
-### Glossario dei termini aggiornato
-
 |     **Entità**      |                                                            **Descrizione**                                                            |         **Sinonimi**         |
 |:-------------------:|:-------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------:|
 |     **Negozio**     |         Punto vendita fisico appartenente alla catena di barberie, in cui si offrono servizi di taglio e vendita di prodotti          |   Barberia, Punto Vendita    |
@@ -85,7 +81,7 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
 |    **Corriere**     |                         Gestori delle consegne dei prodotti acquistati online o tramite punti vendita fisici                          |    Vettori, Trasportatori    |
 |      **Zona**       |                 Area geografica supervisionata da un responsabile di zona, che include uno o più negozi della catena                  |        Area, Regione         |
 |     **Offerta**     |                                Promozione temporanea o sconto su prodotti o servizi offerti ai clienti                                |      Sconto, Promozione      |
-|      **Ruolo**      | Posizione lavorativa all'interno dello staff (es. Barbiere Junior, Manager, Receptionist), associata a specifiche mansioni e stipendi |     Posizione, Mansione      |
+|      **Ruolo**      | Posizione lavorativa all'interno dello staff (Barbiere, Receptionist, Manager, Responsabile di Zona), associata a specifiche mansioni e stipendi |     Posizione, Mansione      |
 |    **Servizio**     |        Tipologia di prestazione offerta ai clienti (es. taglio capelli, trattamento barba, ecc.), con prezzi e durate definite        |   Prestazione, Operazione    |
 
 ---
@@ -178,27 +174,27 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
 
 ### Glossario delle entità
 
-|       Entità        |                                                              Descrizione                                                              |                                              Attributi                                               |                             Relazioni Coinvolte                             |
-|:-------------------:|:-------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------:|
-|     **Negozio**     |         Punto vendita fisico appartenente alla catena di barberie, in cui si offrono servizi di taglio e vendita di prodotti          |                              **Id_Negozio**, Nome, Indirizzo, Telefono                               | Dipendente, Inventario, Offerta, Prenotazione, Movimentazioni, Zona, Ordine |
-|   **Dipendente**    |             Dipendenti che lavorano all'interno della catena, con ruoli specifici (barbiere, receptionist, manager, ecc.)             |   **Matricola**, Nome, Cognome, DataAssunzione, DataNascita, Cellulare, Email, Password, Stipendio   |      Ruolo, Negozio, Feedback, Turno, Prenotazione, Cliente, Servizio       |
-|     **Cliente**     |         Utente che usufruisce dei servizi della catena, registrandosi tramite il sistema per prenotare o acquistare prodotti          |                      **Id_Cliente**, Nome, Cognome, Cellulare, Email, Password                       |             Prenotazione, Ordine, Feedback, Offerta, Dipendente             |
-|  **CartaCredito**   |                    Dati di una carta di credito associata a un cliente per completare i pagamenti online o offline                    | **Id_Carta**,                     NumeroCarta, TipoCarta, DataScadenza, Cvv, NomeCarta, CognomeCarta |                                   Cliente                                   |
-|    **Indirizzo**    |                               Indirizzi utilizzati dai clienti per le spedizioni dei prodotti ordinati                                |                    **Id_Indirizzo**,   Via, Città, Cap, Paese, Provincia, Civico                     |                                   Cliente                                   |
-|  **Prenotazione**   |        Richiesta di appuntamento effettuata dal cliente per uno o più servizi in un negozio specifico, a un orario determinato        |                         **Id_Prenotazione**, Data, Ora, Stato, NoteServizio                          |                Cliente, Dipendente, Turno, Negozio, Feedback                |
-|     **Entrata**     |                              Storico di tutte le entrate, sia dalla vendità dei prodotti che da servizi                               |                  **Id_Entrata**, Data, Importo, Tipo, MetodoPagamento, Descrizione                   |                      Prenotazione, Inventario, Negozio                      |
-|      **Turno**      |                          Orario lavorativo assegnato ai membri dello staff per svolgere le proprie mansione                           |                                **Id_Turno**, OraInizio, OraFine, Data                                |                          Dipendente, Prenotazione                           |
-|    **Feedback**     |                 Valutazione lasciata dal cliente dopo aver usufruito di un servizio. Comprende un voto e un commento                  |                                **Id_Feedback**, Voto, Commento, Data                                 |                                Prenotazione                                 |
-|   **Inventario**    |                  Lista dei prodotti disponibili in un negozio, sia per la vendita sia per l'uso interno nei servizi.                  |     **Id_Inventario**, Prodotto, Quantità, PrezzoAcquisto, PrezzoVendità Categoria, TipoProdotto     |                  Negozio, Ordine, Movimentazioni, Offerta                   |
-| **Movimentazione**  |                                   Storico delle operazioni avvenute in un inventario di un negozio.                                   |                         **Id_Movimentazione**, Tipo, Data, Quantità, Motivo                          |                             Negozio, Inventario                             |
-|     **Ordine**      |                                         Acquisto di uno o più prodotti effettuato dal cliente                                         |                               **Id_Ordine**, Data, Ora, Stato, Totale                                |                           DettagliOrdini, Cliente                           |
-| **DettaglioOrdine** |                  Elementi specifici di un ordine, che includono i prodotti acquistati, le quantità e i prezzi totali                  |                               **Id_Dettaglio**, Quantità, PrezzoTotale                               |                             Ordini, Inventario                              |
-|   **Spedizione**    |                                       Operazioni di consegna dei prodotti ordinati dai clienti                                        |                   **Id_Spedizione**, DataSpedizione, DataConsegna, StatoSpedizione                   |                              Ordini, Corrieri                               |
-|    **Corriere**     |                         Gestori delle consegne dei prodotti acquistati online o tramite punti vendita fisici                          |                                        **Id_Corriere**, Nome                                         |                                 Spedizioni                                  |
-|      **Zona**       |                        Area geografica supervisionata da un responsabile di zona, che include uno o più negozi                        |                                          **Id_Zona**, Nome                                           |                             Dipendente, Negozio                             |
-|     **Offerta**     |                                Promozione temporanea o sconto su prodotti o servizi offerti ai clienti                                |                          **Id_Offerta**, Inizio, Fine, Sconto, Descrizione                           |                             Negozio, Inventario                             |
-|      **Ruolo**      | Posizione lavorativa all'interno dello staff (es. Barbiere Junior, Manager, Receptionist), associata a specifiche mansioni e stipendi |                                 **Id_Ruolo**, Tipo, LivelloStipendio                                 |                                 Dipendente                                  |
-|    **Servizio**     |        Tipologia di prestazione offerta ai clienti (es. taglio capelli, trattamento barba, ecc.), con prezzi e durate definite        |                          **Id_Servizio**, Tipo, Prezzo, Durata, Descrizione                          |                          Prenotazione, Dipendente                           |
+|       Entità        |                                                                   Descrizione                                                                    |                                            Attributi                                             |                             Relazioni Coinvolte                             |
+|:-------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------:|
+|     **Negozio**     |               Punto vendita fisico appartenente alla catena di barberie, in cui si offrono servizi di taglio e vendita di prodotti               |                            **Id_Negozio**, Nome, Indirizzo, Telefono                             | Dipendente, Inventario, Offerta, Prenotazione, Movimentazione, Zona, Ordine |
+|   **Dipendente**    |                  Dipendenti che lavorano all'interno della catena, con ruoli specifici (barbiere, receptionist, manager, ecc.)                   | **Matricola**, Nome, Cognome, DataAssunzione, DataNascita, Cellulare, Email, Password, Stipendio |                Ruolo, Negozio, Turno, Prenotazione, Cliente                 |
+|     **Cliente**     |               Utente che usufruisce dei servizi della catena, registrandosi tramite il sistema per prenotare o acquistare prodotti               |              **Id_Cliente**, Nome, Cognome, Cellulare, Email, Password, NumeroTagli              |     Prenotazione, Ordine, Feedback, Dipendente, Indirizzo, CartaCredito     |
+|  **CartaCredito**   |                         Dati di una carta di credito associata a un cliente per completare i pagamenti online o offline                          |         **Id_Carta**,                     Numero, Tipo, DataScadenza, Cvv, Nome, Cognome         |                                   Cliente                                   |
+|    **Indirizzo**    |                                     Indirizzi utilizzati dai clienti per le spedizioni dei prodotti ordinati                                     |                  **Id_Indirizzo**,   Via, Città, Cap, Paese, Provincia, Civico                   |                                   Cliente                                   |
+|  **Prenotazione**   |             Richiesta di appuntamento effettuata dal cliente per uno o più servizi in un negozio specifico, a un orario determinato              |                           **Id_Prenotazione**, Data, Ora, Stato, Note                            |           Cliente, Dipendente, Turno, Negozio, Feedback, Servizio           |
+|     **Entrata**     |                                    Storico di tutte le entrate, sia dalla vendità dei prodotti che da servizi                                    |                **Id_Entrata**, Data, Importo, Tipo, MetodoPagamento, Descrizione                 |                      Prenotazione, Inventario, Negozio                      |
+|      **Turno**      |                                Orario lavorativo assegnato ai membri dello staff per svolgere le proprie mansione                                |                              **Id_Turno**, OraInizio, OraFine, Data                              |                          Dipendente, Prenotazione                           |
+|    **Feedback**     |                       Valutazione lasciata dal cliente dopo aver usufruito di un servizio. Comprende un voto e un commento                       |                              **Id_Feedback**, Voto, Commento, Data                               |                                Prenotazione                                 |
+|    **Prodotto**     |                       Lista dei prodotti disponibili in un negozio, sia per la vendita sia per l'uso interno nei servizi.                        |            **Id_Prodotto**, Nome, PrezzoAcquisto, PrezzoVendità, Categoria, Vendibile            |                  Negozio, DettaglioOrdine, Movimentazioni, Offerta                   |
+| **Movimentazione**  |                                        Storico delle operazioni avvenute in un inventario di un negozio.                                         |                       **Id_Movimentazione**, Tipo, Data, Quantità, Motivo                        |                             Negozio, Inventario                             |
+|     **Ordine**      |                                              Acquisto di uno o più prodotti effettuato dal cliente                                               |                             **Id_Ordine**, Data, Ora, Stato, Totale                              |                    DettaglioOrdine, Cliente, Spedizione                     |
+| **DettaglioOrdine** |                       Elementi specifici di un ordine, che includono i prodotti acquistati, le quantità e i prezzi totali                        |                             **Id_Dettaglio**, Quantità, PrezzoTotale                             |                             Ordine, Prodotto                              |
+|   **Spedizione**    |                                             Operazioni di consegna dei prodotti ordinati dai clienti                                             |                 **Id_Spedizione**, DataSpedizione, DataConsegna, Stato                 |                              Ordine, Corriere                               |
+|    **Corriere**     |                               Gestori delle consegne dei prodotti acquistati online o tramite punti vendita fisici                               |                                      **Id_Corriere**, Nome                                       |                                 Spedizione                                  |
+|      **Zona**       |                             Area geografica supervisionata da un responsabile di zona, che include uno o più negozi                              |                                        **Id_Zona**, Nome                                         |                             Dipendente, Negozio                             |
+|     **Offerta**     |                                     Promozione temporanea o sconto su prodotti o servizi offerti ai clienti                                      |                        **Id_Offerta**, Inizio, Fine, Sconto, Descrizione                         |                             Negozio, Inventario                             |
+|      **Ruolo**      | Posizione lavorativa all'interno dello staff (Barbiere, Receptionist, Manager, Responsabile di Zona), associata a specifiche mansioni e stipendi |                               **Id_Ruolo**, Tipo, LivelloStipendio                               |                                 Dipendente                                  |
+|    **Servizio**     |             Tipologia di prestazione offerta ai clienti (es. taglio capelli, trattamento barba, ecc.), con prezzi e durate definite              |                        **Id_Servizio**, Tipo, Prezzo, Durata, Descrizione                        |                                Prenotazione                                 |
 
 ---
 
@@ -214,39 +210,41 @@ Sono state individuate le seguenti entità principali. Il *Dipendente* lavora in
 
 ##### Raffinazione entità **Negozio**
 
-1. **Negozio - Prenotazione**
-   - **Relazione:** *Riceve*  
-   - **Cardinalità:** 1 a N (Un negozio può ricevere più prenotazioni; ogni prenotazione è associata a un solo negozio).  
-   - **Descrizione:** I clienti effettuano prenotazioni presso un negozio specifico per usufruire di servizi come taglio di capelli o trattamenti. Ogni prenotazione include dettagli come data, orario e il dipendente selezionato per il servizio.
-2. **Negozio - Zona**
+1. **Negozio - Zona**
    - **Relazione:** *Appartiene a*  
-   - **Cardinalità:** N a 1 (Un negozio appartiene a una sola zona; una zona può includere più negozi).  
+   - **Cardinalità:** 1 a N (Un negozio appartiene a una sola zona; una zona può includere più negozi).  
    - **Descrizione:** Ogni negozio è situato in una zona geografica specifica, gestita da un responsabile di zona. La zona facilita il coordinamento strategico e operativo tra più negozi appartenenti alla stessa area.  
-3. **Negozio - Inventario**
-   - **Relazione:** *Contiene*  
-   - **Cardinalità:** 1 a 1 (Ogni negozio ha un inventario unico; l'inventario appartiene a un solo negozio).  
-   - **Descrizione:** Ogni negozio dispone di un inventario in cui sono tracciati i prodotti disponibili per la vendita o l'uso interno. L'inventario è continuamente aggiornato attraverso operazioni come acquisti, resi e vendite.
-4. **Negozio - Offerta**
+2. **Negozio - Prodotto**
+   - **Relazione:** *Inventario*
+   - **Cardinalità: N a N**
+     - Ogni **negozio** può avere **più prodotti** nel suo inventario.
+     - Ogni **prodotto** può essere presente in **più negozi**.
+   - **Descrizione:** Ogni negozio dispone di un inventario in cui vengono tracciati i prodotti disponibili per la vendita. La relazione permette di gestire informazioni relative ai prodotti presenti nei vari negozi, come quantità disponibili, prezzi specifici per negozio o altre caratteristiche legate alla vendita.
+3. **Negozio - Offerta**
    - **Relazione:** *Propone*  
-   - **Cardinalità:** 1 a N (Un negozio può proporre più offerte; un’offerta può essere valida per più negozi).  
+   - **Cardinalità:** 1 a N (Un negozio può proporre più offerte; un'offerta può essere valida per più negozi).  
    - **Descrizione:** I negozi possono proporre promozioni o sconti specifici per attrarre clienti. Queste offerte possono essere limitate a un negozio o estese a più negozi, in base alle strategie aziendali.  
-5. **Negozio - Entrata**
+4. **Negozio - Entrata**
    - **Relazione:** *Genera*  
    - **Cardinalità:** 1 a N (Un negozio può registrare più entrate; ogni entrata è associata a un solo negozio).  
    - **Descrizione:** Ogni negozio genera entrate derivanti da servizi forniti e prodotti venduti. Questi dati sono tracciati per analizzare le performance economiche del negozio.
-6. **Negozio - Movimentazioni**
-   - **Relazione:** *Registra*  
-   - **Cardinalità:** 1 a N (Un negozio può registrare più movimentazioni; ogni movimentazione è associata a un solo negozio).  
-   - **Descrizione:** Le movimentazioni dell'inventario, come acquisti di prodotti, resi o vendite, sono registrate per tenere traccia delle variazioni delle scorte in un negozio.  
-
-![ER Scheletro](images/rifinitura_negozio.png){width="500" style="display: block; margin: 0 auto"}
+  
+![Rifinitura entità negozio](images/rifinitura_negozio.png){width="500" style="display: block; margin: 0 auto"}
 
 ##### Raffinazione entità **Dipendente**
 
+![Rifinitura entità dipendente](images/rifinitura_dipendente.png){width="500" style="display: block; margin: 0 auto"}
+
 ##### Raffinazione entità **Cliente**
+
+![Rifinitura entità cliente](images/rifinitura_cliente.png){width="500" style="display: block; margin: 0 auto"}
 
 ##### Raffinazione entità **Prenotazione**
 
+![Rifinitura entità prenotazione](images/rifinitura_prenotazione.png){width="500" style="display: block; margin: 0 auto"}
+
 ##### Raffinazione entità **Ordine**
+
+![Rifinitura entità ordine](images/rifinitura_ordine.png){width="500" style="display: block; margin: 0 auto"}
 
 ### Diagramma E-R Finale
