@@ -3,7 +3,8 @@
 ## Triggers
 
 1. Quando si aggiunge un feedback, controllare che si fa riferimento ad un barbiere. `Check Staff.Tipo == Barbiere`
-1. Quando si aggiunge una zona, controllare che gli venga associato un responsabile di zona `Check Staff.Tipo == Responsabile Zona`
+2. Quando si aggiunge una zona, controllare che gli venga associato un responsabile di zona `Check Staff.Tipo == Responsabile Zona`
+3. quando si effettua un pagamento per un ordine o per una prenotazione aggiungere un entrata
 
 - implemetare una routine per il calocolo del stipendio
 
@@ -103,3 +104,8 @@ Nel progetto TORVERBARBER, abbiamo deciso di adottare una chiave primaria univoc
     Efficienza nelle operazioni: Le chiavi numeriche o alfanumeriche sono più rapide da indicizzare e confrontare rispetto a chiavi composte (formate da più attributi), il che migliora le prestazioni durante l'esecuzione delle query e delle operazioni di join nel database.
 
     Scalabilità: L'uso di chiavi univoche permette di gestire facilmente l'espansione del sistema. Con l'aumentare del numero di entità e record, la gestione delle chiavi diventa sempre più semplice rispetto all'uso di chiavi composte, che potrebbero diventare difficili da mantenere man mano che il sistema cresce.
+
+
+
+    Ecco la versione corretta e migliorata delle tabelle, con descrizioni riviste, sinonimi aggiustati e una maggiore coerenza generale.
+
