@@ -131,3 +131,43 @@ Nel progetto TORVERBARBER, abbiamo deciso di adottare una chiave primaria univoc
 |    **Ruolo**     |          Posizione lavorativa associata a un dipendente, con specifiche mansioni e retribuzione.          |                               **TipoRuolo**, LivelloStipendio                               |                         Dipendente                          |
 |   **Servizio**   |   Prestazione offerta ai clienti (es. taglio capelli, trattamento barba) con durata e prezzo definiti.    |                        **TipoServizio**, Prezzo, Durata, Descrizione                        |                        Prenotazione                         |
 
+
+
+Ecco una tabella simile alla tua, con una stima delle dimensioni dei record per ciascun concetto e un'indicazione del volume stimato, dove **E** rappresenta entità principali e **R** rappresenta relazioni:
+
+| **Concetto**          | **Dimensione Record** | **Volume** |
+|-----------------------|-----------------------|------------|
+| **IndirizzoConsegna** | (4 + 100 + 10 + 5 + 50 + 50 + 2 + 1 + 4) bytes = **226 bytes** | **E** |
+| **CartaCredito**      | (4 + 16 + 20 + 3 + 50 + 50 + 4) bytes = **147 bytes** | **E** |
+| **Cliente**           | (4 + 50 + 50 + 15 + 100 + 64) bytes = **283 bytes** | **E** |
+| **Ordine**            | (4 + 3 + 20 + 3 + 4 + 4) bytes = **38 bytes** | **E** |
+| **DettaglioOrdine**   | (4 + 4 + 4) bytes = **12 bytes** | **R** |
+| **Spedizione**        | (4 + 3 + 3 + 50) bytes = **60 bytes** | **E** |
+| **Feedback**          | (4 + 1 + 255 + 3 + 4 + 4) bytes = **271 bytes** | **E** |
+| **Prenotazione**      | (4 + 3 + 3 + 20 + 255 + 4 + 4 + 4 + 4) bytes = **301 bytes** | **E** |
+| **Negozio**           | (4 + 50 + 100 + 10 + 5 + 50 + 15 + 50 + 4) bytes = **288 bytes** | **E** |
+| **Zona**              | (50 + 4) bytes = **54 bytes** | **E** |
+| **Servizio**          | (50 + 255 + 4 + 4) bytes = **313 bytes** | **E** |
+| **Dipendente**        | (4 + 50 + 50 + 100 + 3 + 15 + 3 + 4 + 4 + 4) bytes = **237 bytes** | **E** |
+| **Ruolo**             | (20 + 4) bytes = **24 bytes** | **E** |
+| **Turno**             | (4 + 3 + 3 + 3) bytes = **13 bytes** | **E** |
+| **Inventario**        | (4 + 4 + 4) bytes = **12 bytes** | **R** |
+| **Prodotto**          | (4 + 50 + 50 + 4 + 255 + 20) bytes = **383 bytes** | **E** |
+| **Offerta**           | (4 + 255) bytes = **259 bytes** | **E** |
+| **Propone**           | (4 + 4 + 3 + 3) bytes = **14 bytes** | **R** |
+| **Applica**           | (4 + 4 + 4) bytes = **12 bytes** | **R** |
+| **Entrata**           | (4 + 3 + 4 + 20 + 255 + 4) bytes = **290 bytes** | **E** |
+| **Assegnazione**      | (4 + 4 + 3 + 255) bytes = **266 bytes** | **R** |
+
+### Note:
+1. **Tipi di dati stimati**:
+   - Interi (INT): 4 byte
+   - Stringhe variabili (VARCHAR): dimensione massima specificata
+   - Date (DATE): 3 byte
+   - Booleani: 1 byte
+
+2. **Calcoli**:
+   - La somma delle dimensioni è calcolata come la somma dei byte per ogni attributo di una riga.
+
+Se hai bisogno di ulteriori chiarimenti o modifiche, fammi sapere!
+
