@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0" version="25.0.3">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0" version="26.0.11">
   <diagram name="Page-1" id="EHbDZYoHjk3vQe8Ejhvv">
-    <mxGraphModel dx="2506" dy="419" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2672" dy="506" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -216,15 +216,6 @@
             <mxPoint x="-290" y="230" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="3pYKi4AClHYdLQsbnEup-294" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="3pYKi4AClHYdLQsbnEup-295" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="-165" y="205" as="targetPoint" />
-            <mxPoint x="-190" y="204.99999999999977" as="sourcePoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="3pYKi4AClHYdLQsbnEup-295" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="-160" y="200" width="10" height="10" as="geometry" />
-        </mxCell>
         <mxCell id="3pYKi4AClHYdLQsbnEup-296" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;fillColor=#0A0A0A;" parent="1" vertex="1">
           <mxGeometry x="-335" y="195" width="10" height="10" as="geometry" />
         </mxCell>
@@ -239,9 +230,6 @@
         </mxCell>
         <mxCell id="3pYKi4AClHYdLQsbnEup-300" value="Categoria" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="1" vertex="1">
           <mxGeometry x="-405" y="215" width="70" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="3pYKi4AClHYdLQsbnEup-301" value="PrezzoAcquisto" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" parent="1" vertex="1">
-          <mxGeometry x="-150" y="190" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="3pYKi4AClHYdLQsbnEup-302" value="&lt;div&gt;Prodotto&lt;/div&gt;" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
           <mxGeometry x="-290" y="195" width="100" height="40" as="geometry" />
