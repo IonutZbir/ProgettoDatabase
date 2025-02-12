@@ -4,8 +4,8 @@ USE Torverbarber;
 DROP TRIGGER IF EXISTS before_update_zona;
 DROP TRIGGER IF EXISTS before_insert_zona;
 DROP TRIGGER IF EXISTS before_insert_feedback;
-DROP TRIGGER IF EXISTS before_insert_indirizzo_consegna;
-DROP TRIGGER IF EXISTS before_update_indirizzo_consegna;
+-- DROP TRIGGER IF EXISTS after_insert_indirizzo_consegna;
+-- DROP TRIGGER IF EXISTS after_update_indirizzo_consegna;
 DROP TRIGGER IF EXISTS before_insert_prenotazione;
 
 DELIMITER //
@@ -74,30 +74,34 @@ BEGIN
 END
 //
 
--- 3. Ensure only one default address per client
-CREATE TRIGGER before_insert_indirizzo_consegna
-BEFORE INSERT ON IndirizzoConsegna
-FOR EACH ROW
-BEGIN
-    IF NEW.predefinito = 1 THEN
-        UPDATE IndirizzoConsegna
-        SET predefinito = 0
-        WHERE ClienteId = NEW.ClienteId;
-    END IF;
-END
-//
+-- -- 3. Ensure only one default address per client
+-- CREATE TRIGGER after_insert_indirizzo_consegna
+-- AFTER INSERT ON IndirizzoConsegna
+-- FOR EACH ROW
+-- BEGIN
+--     IF NEW.predefinito = 1 THEN
+--         -- Resetta gli altri indirizzi predefiniti per lo stesso cliente
+--         UPDATE IndirizzoConsegna
+--         SET predefinito = 0
+--         WHERE ClienteId = NEW.ClienteId
+--         AND IndirizzoId <> NEW.IndirizzoId;
+--     END IF;
+-- END
+-- //
 
-CREATE TRIGGER before_update_indirizzo_consegna
-BEFORE UPDATE ON IndirizzoConsegna
-FOR EACH ROW
-BEGIN
-    IF NEW.predefinito = 1 THEN
-        UPDATE IndirizzoConsegna
-        SET predefinito = 0
-        WHERE ClienteId = NEW.ClienteId AND IndirizzoId <> NEW.IndirizzoId;
-    END IF;
-END
-//
+-- CREATE TRIGGER after_update_indirizzo_consegna
+-- AFTER UPDATE ON IndirizzoConsegna
+-- FOR EACH ROW
+-- BEGIN
+--     IF NEW.predefinito = 1 THEN
+--         -- Resetta gli altri indirizzi predefiniti per lo stesso cliente
+--         UPDATE IndirizzoConsegna
+--         SET predefinito = 0
+--         WHERE ClienteId = NEW.ClienteId
+--         AND IndirizzoId <> NEW.IndirizzoId;
+--     END IF;
+-- END
+-- //
 
 -- 4. Ensure that the assigned employee for a Prenotazione is a "Barbiere"
 CREATE TRIGGER before_insert_prenotazione

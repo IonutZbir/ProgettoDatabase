@@ -28,7 +28,7 @@ L'applicazione **TORVERBARBER** mira a centralizzare le operazioni giornaliere d
 ### Analisi degli utenti
 
 1. **Cliente**
-    - L'applicazione è stata progettata per migliorare significativamente l'esperienza dei clienti, offrendo strumenti che semplificano l'accesso ai servizi e aumentano la fidelizzazione. Ogni cliente avrà la possibilità di creare un proprio profilo personale sulla piattaforma online. Durante la registrazione, verranno richiesti alcuni dati fondamentali come il nome utente, l’indirizzo email e il numero di cellulare. Questo profilo diventerà il punto di accesso principale per gestire tutte le funzionalità offerte dall’applicazione.
+    - L'applicazione è stata progettata per migliorare significativamente l'esperienza dei clienti, offrendo strumenti che semplificano l'accesso ai servizi e aumentano la fidelizzazione. Ogni cliente avrà la possibilità di creare un proprio profilo personale sulla piattaforma online. Durante la registrazione, verranno richiesti alcuni dati fondamentali come il nome, cognome, l’indirizzo email e il numero di cellulare. Questo profilo diventerà il punto di accesso principale per gestire tutte le funzionalità offerte dall’applicazione.
 
     - Tra le caratteristiche principali, c'è la possibilità di effettuare prenotazioni online in modo semplice e veloce. I clienti potranno scegliere il negozio più vicino, selezionare il barbiere preferito e definire i servizi desiderati. Inoltre, avranno sempre la possibilità di modificare o cancellare le prenotazioni in base alle loro esigenze.
 
@@ -42,9 +42,9 @@ L'applicazione **TORVERBARBER** mira a centralizzare le operazioni giornaliere d
 
     - I **receptionist** svolgono un ruolo chiave nel mantenere il negozio operativo e nel supportare i clienti. Il loro compito principale è la gestione delle prenotazioni: grazie a un’interfaccia intuitiva, possono aggiungere, modificare o annullare appuntamenti in base alle esigenze del cliente o alle disponibilità dei barbieri. Sono anche il primo punto di contatto per i clienti che necessitano di assistenza, sia per questioni legate alle prenotazioni sia per problemi relativi agli acquisti. Infine, il receptionist monitora l’attività quotidiana del negozio, assicurandosi che tutto funzioni senza intoppi.
 
-    - Ogni negozio è gestito da un **responsabile** che si occupa di coordinare le attività operative. Questo ruolo include la gestione dei turni dei barbieri, adattandoli alle necessità del negozio, e il controllo dell’inventario, verificando che le scorte siano sufficienti sia per la vendita sia per l’uso interno. Il responsabile si occupa anche delle comunicazioni con i fornitori, assicurando un flusso costante di materiali e prodotti. Infine, fornisce report regolari al manager di zona, così da mantenere una supervisione generale sull’andamento del negozio.
+    - Ogni negozio è gestito da un **manager** che si occupa di coordinare le attività operative. Questo ruolo include la gestione dei turni dei barbieri, adattandoli alle necessità del negozio, e il controllo dell’inventario, verificando che le scorte siano sufficienti sia per la vendita sia per l’uso interno. Il responsabile si occupa anche delle comunicazioni con i fornitori, assicurando un flusso costante di materiali e prodotti. Infine, fornisce report regolari al manager di zona, così da mantenere una supervisione generale sull’andamento del negozio.
 
-    - Il **manager** supervisiona un insieme di negozi all’interno di una determinata area geografica. Questo ruolo richiede una visione globale delle performance di ogni negozio, analizzando report e dati forniti dai responsabili. Il manager di zona lavora per risolvere eventuali problematiche e garantire che i negozi rispettino gli standard qualitativi della catena. Inoltre, ha la responsabilità di pianificare promozioni e strategie per incrementare le vendite e la soddisfazione dei clienti su scala regionale.
+    - Il **responsabile di zona** supervisiona un insieme di negozi all’interno di una determinata area geografica. Questo ruolo richiede una visione globale delle performance di ogni negozio, analizzando report e dati forniti dai manager. Il manager di zona lavora per risolvere eventuali problematiche e garantire che i negozi rispettino gli standard qualitativi della catena. Inoltre, ha la responsabilità di pianificare promozioni e strategie per incrementare le vendite e la soddisfazione dei clienti su scala regionale.
 
     - Infine, il **CEO** è responsabile della supervisione complessiva della catena di *barber shop*. Questo ruolo si concentra sull’analisi strategica dei dati provenienti da tutti i negozi, identificando tendenze e opportunità per migliorare le operazioni. Il CEO definisce gli obiettivi aziendali a lungo termine, pianifica l’espansione del marchio e gestisce le relazioni con partner e investitori, garantendo così la crescita e la sostenibilità dell’intera catena.
 
@@ -54,15 +54,15 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
 
 #### Ruoli e Responsabilità
 
-- **Receptionist:** Prima figura di contatto per i clienti, si occupano di accoglienza, gestione delle prenotazioni e supporto amministrativo. La crescita salariale segue una costante stipendiale pari a $1.01$ moltiplicata per gli anni di servizio.
+- **Receptionist:** Prima figura di contatto per i clienti, si occupano di accoglienza, gestione delle prenotazioni e supporto amministrativo.
 
-- **Barbiere:** Responsabili dei servizi offerti ai clienti (tagli, trattamenti barba, ecc.). Lo stipendio cresce con una costante stipendiale di $1.02$.
+- **Barbiere:** Responsabili dei servizi offerti ai clienti (tagli, trattamenti barba, ecc.).
 
-- **Manager del negozio:** Gestisce le operazioni quotidiane del negozio, come turni, inventario e fornitori. Lo stipendio è calcolato con una costante di $1.03$.
+- **Manager del negozio:** Gestisce le operazioni quotidiane del negozio, come turni, inventario e fornitori.
 
-- **Responsabile di zona:** Supervisiona più negozi in una zona, collabora con i manager e mantiene il contatto diretto con il CEO. La costante stipendiale è $1.04$.
+- **Responsabile di zona:** Supervisiona più negozi in una zona, collabora con i manager e mantiene il contatto diretto con il CEO.
 
-- **CEO:** Guida l'azienda, definendo la strategia e supervisionando l'intera struttura. Lo stipendio è basato su contratti specifici e bonus performance, senza una costante stipendiale.
+- **CEO:** Guida l'azienda, definendo la strategia e supervisionando l'intera struttura.
 
 ---
 
@@ -178,7 +178,7 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
 |    **Spedizione**     |                        Operazione di consegna dei prodotti acquistati ai clienti.                         |                         **CodiceSpedizione**, DataSpedizione, DataConsegna, Stato                          |                      Ordine, Corriere                       |
 |     **Corriere**      |                Operatore incaricato del trasporto e della consegna di prodotti ai clienti.                |                                              **NomeCorriere**                                              |                         Spedizione                          |
 |       **Zona**        |                   Area geografica gestita da un responsabile e comprendente più negozi.                   |                                                **NomeZona**                                                |                     Dipendente, Negozio                     |
-|      **Offerta**      |        Promozione temporanea o sconto applicato a prodotti o servizi per incrementare le vendite.         |                            **CodiceOfferta**, Inizio, Fine, Sconto, Descrizione                            |                     Negozio, Inventario                     |
+|      **Offerta**      |        Promozione temporanea o sconto applicato a prodotti o servizi per incrementare le vendite.         |                            **CodiceOfferta**, Descrizione, TipoOfferta                            |                     Negozio, Inventario                     |
 |       **Ruolo**       |          Posizione lavorativa associata a un dipendente, con specifiche mansioni e retribuzione.          |                                      **TipoRuolo**, LivelloStipendio                                       |                         Dipendente                          |
 |     **Servizio**      |   Prestazione offerta ai clienti (es. taglio capelli, trattamento barba) con durata e prezzo definiti.    |                               **TipoServizio**, Prezzo, Durata, Descrizione                                |                        Prenotazione                         |
 
@@ -286,6 +286,8 @@ Dopo aver rifinito le entità invidutate nello schema scheletro, otteniamo lo sc
 
 ![ER Finale](../fase_due/images/er_finale.png){width="800" style="display: block; margin: 0 auto"}
 
+---
+
 ## Schema logico
 
 In questa fase ci occupiamo di riorganizzare lo schema concettuale e di tradurlo in schema logico.
@@ -322,12 +324,14 @@ Ogni attributo non chiave dipende direttamente e unicamente dalla chiave primari
 Nella tabella Negozio, i dettagli della zona geografica (come il nome della zona) sono gestiti in una tabella separata (Zona), eliminando eventuali dipendenze transitive.
 Nella tabella Feedback, attributi come "voto" e "commento" dipendono direttamente dalla chiave primaria del feedback.
 
+---
+
 ### Relazioni
 
 Le chiavi primarie sono identificate in **grassetto**, mentre le chiavi secondarie (o esterne) sono scritte in *corsivo*.
 
 1. IndirizzoConsegna(**IndirizzoID**, Via, Civico, Cap, Città, Paese, Provincia, Predefinito, *Cliente*)
-2. CartaCredito(**CartaID** ,NumeroCarta, Tipo, CVV, Nome, Cognome, *Cliente*)
+2. CartaCredito(**CartaID** ,NumeroCarta, CVV, *Cliente*)
 3. Cliente(**ClienteID**, Nome, Cognome, Cellulare, Email, Password)
 4. Ordine(**CodiceOrdine**, Data, Stato, Ora, *Cliente*, *Spedizione*)
 5. DettaglioOrdine(**CodiceOrdine**, **Prodotto**, Quantità)
@@ -343,9 +347,11 @@ Le chiavi primarie sono identificate in **grassetto**, mentre le chiavi secondar
 15. Inventario(**CodiceNegozio**, **Prodotto**, Quantità)
 16. Prodotto(**CodiceBarre**, Nome, Categoria, PrezzoUnitario, Descrizione, Stato)
 17. Offerta(**CodiceOfferta**, Descrizione)
-18. Applica(**Prodotto**, **CodiceOfferta**, Sconto, DataInizio, DataFine, PercentualeSconto, PrezzoFisso, PrezzoPromozionale)
+18. Applica(**Prodotto**, **CodiceOfferta**, DataInizio, DataFine, PercentualeSconto, ScontoFisso, PrezzoPromozionale)
 19. Entrata(**CodiceEntrata**, Data, Importo, MetodoPagamento, Descrizione, *Negozio*)
 20. Assegnazione(**Dipendente**, **Turno**, DataAssegnazione, Note)
+
+---
 
 ## Carico applicativo
 
@@ -406,9 +412,13 @@ Le chiavi primarie sono identificate in **grassetto**, mentre le chiavi secondar
 - Date (DATE): 3 byte
 - Booleani: 1 byte
 
+---
+
 ### Tabella delle operazioni
 
-#### 1. Aggiunta di una prenotazione
+#### Di seguito sono mostrare alcune operazione che saranno implementate cone View
+
+##### 1. Aggiunta di una prenotazione
 
 Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno specifico negozio con uno specifico servizio che sarà poi gestita da un dipendente.
 
@@ -420,9 +430,10 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | Dipendente   | E         | 1       | S    |             |
 | Servizio     | E         | 1       | S    |             |
 
-#### 2. Visualizzare i turni di tutti i dipendendti per una data giornata
+##### 2. Visualizzare i turni di tutti i dipendenti per una data giornata
 
-Data una data giornaliera, visualizza tutti i turni di tutti i dipendenti.
+- Mostra tutti i turni assegnati ai dipendenti in una determinata data.  
+- Include dati del dipendente, orari di inizio e fine turno, negozio associato.
 
 | Concetto     | Costrutto | Accessi | Tipo | Frequenza  |
 |--------------|-----------|---------|------|------------|
@@ -430,27 +441,34 @@ Data una data giornaliera, visualizza tutti i turni di tutti i dipendenti.
 | Assegnazione | R         | 1       | S    |            |
 | Dipendente   | E         | 1       | S    |            |
 
-#### 3. Visualizzare le prenotazioni di un cliente
+##### 3. Visualizzare tutte le prenotazioni di un cliente
 
-Dato un cliente, visualizzare le prenotazioni di tale cliente
+- Elenco delle prenotazioni di un cliente con dettagli su stato, data, ora, negozio e servizio scelto.  
+- Utile per mostrare lo storico delle prenotazioni.  
 
 | Concetto     | Costrutto | Accessi | Tipo | Frequenza  |
 |--------------|-----------|---------|------|------------|
 | Prenotazione | E         | 1       | S    | 5 / giorno |
 | Cliente      | E         | 1       | S    |            |
+| Negozio      | E         | 1       | S    |            |
+| Servizio     | E         | 1       | S    |            |
 
-#### 4. Visualizzare le entrate di una giornata di un negozio
+##### 4. Visualizzare tutti gli ordini di un cliente
 
-Dato un negozio e una data giornaliera, visualizzare tutte le entrate di quel negozio in quella data
+- Elenco degli ordini di un cliente con dettagli su data, stato e prodotti inclusi.  
+- Permette di visualizzare il totale degli acquisti effettuati.  
 
-| Concetto | Costrutto | Accessi | Tipo | Frequenza  |
-|----------|-----------|---------|------|------------|
-| Entrata  | E         | 1       | S    | 5 / giorno |
-| Negozio  | E         | 1       | S    |            |
+| Concetto        | Costrutto | Accessi | Tipo | Frequenza  |
+|-----------------|-----------|---------|------|------------|
+| Ordine          | E         | 1       | S    | 5 / giorno |
+| Cliente         | E         | 1       | S    |            |
+| DettaglioOrdine | R         | 1       | S    |            |
+| Prodotto        | E         | 1       | S    |            |
 
-#### 5. Visualizzare tutti i dipendenti di un negozio
+##### 5. Dipendenti di un negozio ordinati per ruolo e anzianità
 
-Dato un negozio visualizzare tutte i dipendenti relativi a quel determinato negezio
+- Mostra i dipendenti di un negozio ordinati per ruolo e data di assunzione.  
+- Aiuta a capire la struttura gerarchica del personale.  
 
 | Concetto   | Costrutto | Accessi | Tipo | Frequenza |
 |------------|-----------|---------|------|-----------|
@@ -458,18 +476,20 @@ Dato un negozio visualizzare tutte i dipendenti relativi a quel determinato nege
 | Negozio    | E         | 1       | S    |           |
 | Ruolo      | E         | 1       | S    |           |
 
-#### 6. Visualizzare tutte le prenotazioni di un giorno
+##### 6. Visualizzare le prenotazioni con dettagli cliente e negozio ordinate per data
 
-Dato un giorno, visualizzare tutte le prenotazioni relative a quel giorno
+- Elenco delle prenotazioni effettuate in totale, in tutti i negozi per tutti i clienti, ordinate cronologicamente.  
 
 | Concetto     | Costrutto | Accessi | Tipo | Frequenza   |
 |--------------|-----------|---------|------|-------------|
-| Prenotazione | E         | 1       | S    | 20 / giorno |
+| Prenotazione | E         | 1       | S    | 1 / giorno  |
 | Cliente      | E         | 1       | S    |             |
+| Negozio      | E         | 1       | S    |             |
 
-#### 7. Visualizzare i prodotti all'interno dell'inventario di un negozio
+##### 7. Visualizzare i prodotti all'interno dell'inventario di un negozio
 
-Dato un negozio, visualizzare tutti i prodotti all'interno dell'inventario
+- Mostra i prodotti disponibili in un negozio con la quantità in magazzino.  
+- Aiuta nella gestione dello stock.
 
 | Concetto   | Costrutto | Accessi | Tipo | Frequenza     |
 |------------|-----------|---------|------|---------------|
@@ -477,9 +497,10 @@ Dato un negozio, visualizzare tutti i prodotti all'interno dell'inventario
 | Inventario | R         | 1       | S    |               |
 | Prodotto   | E         | 1       | S    |               |
 
-#### 8. Visualizzare tutti gli ordini relativi ad un prodotto
+##### 8. Visualizzare tutti gli ordini relativi ad un prodotto
 
-Dato un prodotto, visualizzare tutte gli ordini relativi al prodotto
+- Elenco degli ordini in cui è stato acquistato un determinato prodotto.  
+- Utile per monitorare la popolarità di un articolo.
 
 | Concetto        | Costrutto | Accessi | Tipo | Frequenza     |
 |-----------------|-----------|---------|------|---------------|
@@ -487,12 +508,106 @@ Dato un prodotto, visualizzare tutte gli ordini relativi al prodotto
 | DettaglioOrdine | R         | 1       | S    |               |
 | Prodotto        | E         | 1       | S    |               |
 
-#### 9. Visualizzare tutte le offerte relative ad un prodotto
+##### 9. Visualizzare tutte le offerte relative ad un prodotto
 
-Dato un prodotto, visualizzare tutte le offerte relative al prodotto
+- Mostra le offerte attive per un prodotto, inclusi sconti e prezzi promozionali.  
+- Aiuta a tenere traccia delle promozioni in corso.  
 
 | Concetto | Costrutto | Accessi | Tipo | Frequenza     |
 |----------|-----------|---------|------|---------------|
 | Offerta  | E         | 1       | S    | 1 / settimana |
 | Applica  | R         | 1       | S    |               |
 | Prodotto | E         | 1       | S    |               |
+
+##### 10. Visualizzare tutti i feedback lasciati da un cliente
+
+- Elenco delle recensioni scritte da un cliente con valutazione, commento e data.  
+
+| Concetto  | Costrutto | Accessi | Tipo | Frequenza |
+|-----------|-----------|---------|------|-----------|
+| Feedback  | E         | 1       | S    | 5 / mese  |
+| Cliente   | E         | 1       | S    |           |
+
+##### 11. Visualizzare tutti i feedback relativi ad un dipendente
+
+- Mostra tutte le recensioni ricevute da un dipendente con valutazione e commento.  
+
+| Concetto   | Costrutto | Accessi | Tipo | Frequenza |
+|------------|-----------|---------|------|-----------|
+| Feedback   | E         | 1       | S    | 5 / mese  |
+| Dipendente | E         | 1       | S    |           |
+
+#### Di seguito sono mostrate delle query più complesse che possono beneficiare di indicizzazione e ottimizzazioni
+
+##### 1. Calcolo delle entrate giornaliere di un negozio
+
+- Determina le entrate totali di un negozio in una specifica giornata.  
+
+| Concetto  | Costrutto | Accessi | Tipo | Frequenza  |
+|-----------|-----------|---------|------|------------|
+| Entrata   | E         | 1       | S    | 1 / giorno |
+| Negozio   | E         | 1       | S    |            |
+
+##### 2. Calcolo delle vendite totali per prodotto
+
+- Conta quanti pezzi di un determinato prodotto sono stati venduti.  
+
+| Concetto        | Costrutto | Accessi | Tipo | Frequenza     |
+|-----------------|-----------|---------|------|---------------|
+| Ordine          | E         | 1       | S    | 1 / settimana |
+| DettaglioOrdine | R         | 1       | S    |               |
+| Prodotto        | E         | 1       | S    |               |
+
+##### 3. Numero medio di appuntamenti per dipendente al mese
+
+- Calcola la media delle prenotazioni gestite da ogni dipendente su base mensile.  
+
+| Concetto     | Costrutto | Accessi | Tipo | Frequenza  |
+|--------------|-----------|---------|------|------------|
+| Prenotazione | E         | 1       | S    | 1 / mese   |
+| Dipendente   | E         | 1       | S    |            |
+
+##### 4. Percentuale di prenotazioni cancellate rispetto al totale
+
+- Determina il rapporto tra prenotazioni cancellate e prenotazioni totali.  
+
+| Concetto     | Costrutto | Accessi | Tipo | Frequenza  |
+|--------------|-----------|---------|------|------------|
+| Prenotazione | E         | 1       | S    | 1 / mese   |
+
+##### 5. Elenco dei clienti con il totale speso negli ultimi sei mesi
+
+- Calcola la spesa totale di ciascun cliente considerando gli ultimi sei mesi.  
+
+| Concetto        | Costrutto | Accessi | Tipo | Frequenza  |
+|-----------------|-----------|---------|------|------------|
+| Cliente         | E         | 1       | S    | 1 / mese   |
+| Ordine          | E         | 1       | S    |            |
+| DettaglioOrdine | R         | 1       | S    |            |
+| Prodotto        | E         | 1       | S    |            |
+
+##### 6. Lista dei clienti che hanno acquistato almeno 3 volte nell’ultimo anno
+
+- Seleziona i clienti con almeno tre ordini registrati nell’ultimo anno.  
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza  |
+|----------|-----------|---------|------|------------|
+| Cliente  | E         | 1       | S    | 1 / mese   |
+| Ordine   | E         | 1       | S    |            |
+
+##### 7. Elenco di tutti i feedback con valutazione maggiore di 4
+
+- Mostra i dipendenti che hanno ricevuto un feedback con valutazione superiore a 4.  
+
+| Concetto   | Costrutto | Accessi | Tipo | Frequenza     |
+|------------|-----------|---------|------|---------------|
+| Feedback   | E         | 1       | S    | 1 / settimana |
+| Dipendente | E         | 1       | S    | 1 / settimana |
+
+## Query in algebra relazionale
+
+### 1. Zbirciog
+
+### 2. Cosciotti
+
+### 3. Porzia
