@@ -493,6 +493,27 @@ WHERE c.Nome = "Filippo" AND c.Cognome = "Gussoni";
 | DettaglioOrdine | R         | 1       | S    |            |
 | Prodotto        | E         | 1       | S    |            |
 
+```Sql
+CREATE VIEW Ordini_Per_Cliente AS
+SELECT o.stato AS StatoOrdine, o.dataOrdine, p.Nome AS NomeProdotto
+FROM Ordine o
+JOIN DettaglioOrdine d ON d.OrdineId = o.OrdineId
+JOIN Prodotto p ON p.ProdottoID = d.ProdottoID
+JOIN Cliente c ON o.ClienteId = c.ClienteId
+WHERE c.nome = 'Tullio' AND c.cognome = 'Versace';
+```
+
+| StatoOrdine | dataOrdine | NomeProdotto              |
+|-------------|------------|---------------------------|
+| Consegnato  | 2024-09-04 | Shampoo Nivea             |
+| Rifiutato   | 2024-08-08 | Balsamo Acqua di Bolgheri |
+| Rifiutato   | 2024-08-08 | Cera Modellante           |
+| Rifiutato   | 2024-08-08 | Gel Fissativo Extra Forte |
+| Rifiutato   | 2024-08-08 | Olio da Barba             |
+| Consegnato  | 2024-12-03 | Crema Pre-Barba           |
+| Spedito     | 2024-04-06 | Schiuma da Barba          |
+| Spedito     | 2024-04-06 | Lozione Dopobarba         |
+
 ##### 4. Dipendenti di un negozio ordinati per ruolo e anzianità
 
 - Mostra i dipendenti di un negozio ordinati per ruolo e data di assunzione.
@@ -503,15 +524,56 @@ WHERE c.Nome = "Filippo" AND c.Cognome = "Gussoni";
 | Negozio    | E         | 1       | S    |           |
 | Ruolo      | E         | 1       | S    |           |
 
+```Sql
+CREATE VIEW Visualizza_Dipendenti AS
+SELECT d.dataAssunzione, d.nome, d.cognome, r.tipoRuolo AS Ruolo
+FROM Dipendente d
+JOIN Ruolo r ON d.RuoloId = r.RuoloId
+JOIN Negozio n ON n.NegozioId =  d.NegozioId
+ORDER BY r.tipoRuolo, d.dataAssunzione;
+```
+
+| dataAssunzione | nome     | cognome   | Ruolo    |
+|----------------|----------|-----------|----------|
+| 2011-06-09     | Lorenzo  | Turchetta | Barbiere |
+| 2011-10-14     | Giorgia  | Gasperi   | Barbiere |
+| 2012-02-27     | Vittoria | Mazzanti  | Barbiere |
+| 2012-05-19     | Milo     | Veneziano | Barbiere |
+| 2013-01-04     | Alessio  | Montesano | Barbiere |
+| 2013-05-25     | Tina     | Papetti   | Barbiere |
+| 2014-10-19     | Cecilia  | Deledda   | Barbiere |
+| 2016-07-02     | Tonia    | Giradello | Barbiere |
+| 2017-03-24     | Paolo    | Salvini   | Barbiere |
+
 ##### 5. Visualizzare le prenotazioni con dettagli cliente e negozio ordinate per data
 
-- Elenco delle prenotazioni effettuate in totale, in tutti i negozi per tutti i clienti, ordinate cronologicamente.  
+- Elenco delle prenotazioni effettuate in totale, in tutti i negozi per tutti i clienti, ordinate cronologicamente.
 
 | Concetto     | Costrutto | Accessi | Tipo | Frequenza   |
 |--------------|-----------|---------|------|-------------|
 | Prenotazione | E         | 1       | S    | 1 / giorno  |
 | Cliente      | E         | 1       | S    |             |
 | Negozio      | E         | 1       | S    |             |
+
+```Sql
+CREATE VIEW Prenotazioni_Clienti AS
+SELECT c.nome, c.cognome, p.dataPrenotazione, p.oraPrenotazione, n.nome AS NomeNegozio
+FROM Prenotazione p
+JOIN Cliente c ON c.ClienteId = p.ClienteId
+JOIN Negozio n ON n.NegozioId = p.NegozioId
+ORDER BY p.dataPrenotazione, p.oraPrenotazione;
+```
+
+| nome      | cognome  | dataPrenotazione | oraPrenotazione | NomeNegozio                            |
+|-----------|----------|------------------|-----------------|----------------------------------------|
+| Amedeo    | Sanudo   | 2024-02-17       | 00:20:37        | Ubaldi s.r.l.                          |
+| Vittorio  | Fantozzi | 2024-02-17       | 04:33:41        | Turrini SPA                            |
+| Antonio   | Fantini  | 2024-02-17       | 10:05:39        | Calbo, Procacci e Boito s.r.l.         |
+| Ubaldo    | Porzio   | 2024-02-17       | 11:16:10        | Modugno e figli                        |
+| Donato    | Solari   | 2024-02-17       | 12:41:05        | Zito, Sbarbaro e Crispi SPA            |
+| Francesco | Palombi  | 2024-02-17       | 16:43:16        | Gottardi, Toscanini e Parpinel e figli |
+| Ludovico  | Iannuzzi | 2024-02-18       | 01:52:06        | Modugno e figli                        |
+| Vincenzo  | Piazzi   | 2024-02-18       | 02:54:38        | Cutuli e figli                         |
 
 ##### 6. Visualizzare i prodotti all'interno dell'inventario di un negozio
 
@@ -523,6 +585,25 @@ WHERE c.Nome = "Filippo" AND c.Cognome = "Gussoni";
 | Negozio    | E         | 1       | S    | 1 / settimana |
 | Inventario | R         | 1       | S    |               |
 | Prodotto   | E         | 1       | S    |               |
+
+```Sql
+CREATE VIEW Inventario_Negozio AS
+SELECT p.nome, p.categoria, i.quantita, n.nome AS NomeNegozio
+FROM Inventario i
+JOIN Prodotto p ON i.ProdottoId = p.ProdottoId
+JOIN Negozio n ON i.NegozioId = n.NegozioId
+WHERE n.nome = 'Roero Group';
+```
+
+| nome                  | categoria       | quantità | NomeNegozio |
+|-----------------------|-----------------|----------|-------------|
+| Crema Modellante      | Altro           | 430      | Roero Group |
+| Balsamo Idratante     | Balsamo         | 474      | Roero Group |
+| Rasoio Classico       | Rasoi Manuali   | 442      | Roero Group |
+| Cera per Capelli      | Altro           | 256      | Roero Group |
+| Forbici Professionali | Strumenti       | 412      | Roero Group |
+| Rasoio Elettrico      | Rasoi Elettrici | 364      | Roero Group |
+| Shampoo Nutriente     | Shampoo         | 151      | Roero Group |
 
 ##### 7. Visualizzare tutti gli ordini relativi ad un prodotto
 
