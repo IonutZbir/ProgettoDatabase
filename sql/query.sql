@@ -78,4 +78,38 @@ SELECT o.dataOrdine, o.stato
 FROM Prodotto p
 JOIN DettaglioOrdine d ON d.ProdottoId = p.ProdottoId
 JOIN Ordine o ON o.OrdineId = d.OrdineId
-WHERE p.nome = 'Forbici';
+WHERE p.nome = 'Balsamo Pantene';
+
+--- Visualizzare tutte le offerte relative ad un prodotto
+-- Da rivedere
+
+USE Torverbarber;
+
+CREATE VIEW Offerte_Per_Prodotto AS
+SELECT o.tipoOfferta, a.dataInizio, a.dataFine, a.PercentualeSconto, a.PrezzoPromozionale, o.tipoOfferta, o.descrizione
+FROM ApplicaOfferta a
+JOIN Offerta o ON a.OffertaId = o.OffertaId
+JOIN Prodotto p ON a.ProdottoId = p.ProdottoId
+WHERE p.nome = '' AND p.Vendibille = 1;
+
+--- Visualizzare tutti i feedback lasciati da un cliente
+
+USE Torverbarber;
+
+CREATE VIEW Feedback_Per_Utente AS
+SELECT f.valutazione, f.commento, f.dataFeedback
+FROM Feedback f
+JOIN Cliente c ON c.ClienteId = f.ClienteId
+WHERE c.nome = '' and c.cognome = ''
+
+--- Visualizzare tutti i feedback relativi ad un dipendente
+
+USE Torverbarber;
+
+CREATE VIEW Feedback_Per_Dipendente
+SELECT c.nome, c.cognome, f.valutazione, f.commento, f.dataFeedback
+FROM Feedback f
+JOIN Cliente c ON f.ClienteId = c.ClienteId
+JOIN Prenotazione p ON f.PrenotazioneId = p.PrenotazioneId
+JOIN Dipendente d ON d.DipendenteId = p.DipendenteId
+WHERE d.nome = '' and d.cognome = '';

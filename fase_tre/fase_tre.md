@@ -616,6 +616,28 @@ WHERE n.nome = 'Roero Group';
 | DettaglioOrdine | R         | 1       | S    |               |
 | Prodotto        | E         | 1       | S    |               |
 
+```Sql
+CREATE VIEW Ordini_Per_Prodotto AS
+SELECT o.dataOrdine, o.stato
+FROM Prodotto p
+JOIN DettaglioOrdine d ON d.ProdottoId = p.ProdottoId
+JOIN Ordine o ON o.OrdineId = d.OrdineId
+WHERE p.nome = 'Balsamo Pantene';
+```
+
+| dataOrdine | stato      |
+|------------|------------|
+| 2025-02-09 | Annullato  |
+| 2024-06-27 | Rifiutato  |
+| 2024-07-28 | Spedito    |
+| 2024-10-05 | Elaborato  |
+| 2024-06-09 | Consegnato |
+| 2024-08-19 | Spedito    |
+| 2024-04-03 | Consegnato |
+| 2024-09-09 | Elaborato  |
+| 2024-06-27 | Annullato  |
+| 2024-09-24 | Rifiutato  |
+
 ##### 8. Visualizzare tutte le offerte relative ad un prodotto
 
 - Mostra le offerte attive per un prodotto, inclusi sconti e prezzi promozionali.  
