@@ -416,7 +416,155 @@ Le chiavi primarie sono identificate in **grassetto**, mentre le chiavi secondar
 
 ### Tabella delle operazioni
 
-#### Di seguito sono mostrare alcune operazione che saranno implementate cone View
+#### Di seguito sono mostrare alcune operazione che saranno implementate come View
+
+##### 1. Visualizzare i turni di tutti i dipendenti per una data giornata
+
+- Mostra tutti i turni assegnati ai dipendenti in una determinata data.
+- Include dati del dipendente, orari di inizio e fine turno, negozio associato.
+
+| Concetto     | Costrutto | Accessi | Tipo | Frequenza  |
+|--------------|-----------|---------|------|------------|
+| Turno        | E         | 1       | S    | 2 / giorno |
+| Assegnazione | R         | 1       | S    |            |
+| Dipendente   | E         | 1       | S    |            |
+
+```Sql
+CREATE VIEW Disposizione_turni AS
+SELECT d.DipendenteId AS Matricola, d.Nome, d.Cognome, n.Nome AS Negozio, r.tipoRuolo AS Ruolo, a.Note, t.Data, t.OraInizio, t.OraFine  
+FROM Dipendente d
+JOIN Ruolo r ON d.RuoloId = r.RuoloId
+JOIN Negozio n ON d.NegozioId = n.NegozioId
+JOIN AssegnazioneTurno a ON d.DipendenteId = a.DipendenteId
+JOIN Turno t ON t.TurnoId = a.TurnoId 
+WHERE Data = "2024-02-14";
+```
+
+| Matricola | Nome      | Cognome    | Negozio                                | Ruolo                | Note     | Data       | OraInizio | OraFine  |
+|-----------|----------|------------|-----------------------------------------|----------------------|----------|------------|----------|---------|
+| 46        | Michela  | Vidoni     | Bonaventura SPA                        | Responsabile di Zona | NULL     | 2024-02-14 | 08:00:00 | 16:00:00 |
+| 143       | Carmelo  | Luciano    | Benussi-Sabbatini s.r.l.               | Responsabile di Zona | NULL     | 2024-02-14 | 08:00:00 | 16:00:00 |
+| 174       | Ugo      | Giacconi   | Toldo-Rosiello SPA                     | Barbiere             | Apertura | 2024-02-14 | 08:00:00 | 16:00:00 |
+| 216       | Jolanda  | Botticelli | Pietragneli-Gulotta s.r.l.             | Responsabile di Zona | NULL     | 2024-02-14 | 08:00:00 | 16:00:00 |
+| 218       | Vittoria | Bertolucci | Toldo-Rosiello SPA                     | Responsabile di Zona | NULL     | 2024-02-14 | 08:00:00 | 16:00:00 |
+| 225       | Beatrice | Cremonesi  | Bonaventura SPA                        | Barbiere             | Apertura | 2024-02-14 | 08:00:00 | 16:00:00 |
+| 21        | Gelsomina| Marsili    | Ferrucci-Catalano SPA                  | Receptionist         | Chiusura | 2024-02-14 | 14:00:00 | 22:00:00 |
+| 75        | Erika    | Cagnin     | Zito-Pignati e figli                   | Receptionist         | Chiusura | 2024-02-14 | 14:00:00 | 22:00:00 |
+| 208       | Dolores  | Persico    | Vittadello, Mazzanti e Castelli e figli | Barbiere             | Chiusura | 2024-02-14 | 14:00:00 | 22:00:00 |
+
+##### 2. Visualizzare tutte le prenotazioni di un cliente
+
+- Elenco delle prenotazioni di un cliente con dettagli su stato, data, ora, negozio e servizio scelto.  
+- Utile per mostrare lo storico delle prenotazioni.
+
+| Concetto     | Costrutto | Accessi | Tipo | Frequenza  |
+|--------------|-----------|---------|------|------------|
+| Prenotazione | E         | 1       | S    | 5 / giorno |
+| Cliente      | E         | 1       | S    |            |
+| Negozio      | E         | 1       | S    |            |
+| Servizio     | E         | 1       | S    |            |
+
+```Sql
+CREATE VIEW Prenotazione_Per_Cliente AS
+SELECT c.Nome AS Nome_Cliente, c.cognome AS Cognome_Cliente, p.dataPrenotazione, p.oraPrenotazione, p.stato, p.note, n.nome AS Negozio, d.nome, d.cognome, s.nome AS Servizio
+FROM Prenotazione p
+JOIN Servizio s ON s.ServizioId = p.ServizioId
+JOIN Dipendente d ON p.DipendenteId = d.DipendenteId
+JOIN Negozio n ON p.NegozioId = n.NegozioId
+JOIN Cliente c ON p.ClienteId = c.ClienteId
+WHERE c.Nome = "Filippo" AND c.Cognome = "Gussoni";
+```
+
+| Nome_Cliente | Cognome_Cliente | dataPrenotazione | oraPrenotazione | stato      | note          | Negozio                               | nome    | cognome    | Servizio                    |
+|-------------|----------------|------------------|----------------|------------|--------------|--------------------------------------|---------|-----------|-----------------------------|
+| Filippo     | Gussoni        | 2024-09-27       | 16:24:54       | Completato | Tinta        | Murialdo, Pratesi e Antonioni s.r.l. | Raffaello | Geraci    | Colpi di Sole               |
+| Filippo     | Gussoni        | 2025-01-10       | 05:38:18       | In attesa  | Doppio taglio| Marino-Musatti Group                 | Silvia   | Pascarella | Taglio Completo + Barba     |
+| Filippo     | Gussoni        | 2024-12-05       | 22:57:36       | Completato | NULL         | Donà-Druso Group                     | Cristina | Taliani    | Trattamento Anticaduta      |
+
+##### 3. Visualizzare tutti gli ordini di un cliente
+
+- Elenco degli ordini di un cliente con dettagli su data, stato e prodotti inclusi.  
+- Permette di visualizzare il totale degli acquisti effettuati.  
+
+| Concetto        | Costrutto | Accessi | Tipo | Frequenza  |
+|-----------------|-----------|---------|------|------------|
+| Ordine          | E         | 1       | S    | 5 / giorno |
+| Cliente         | E         | 1       | S    |            |
+| DettaglioOrdine | R         | 1       | S    |            |
+| Prodotto        | E         | 1       | S    |            |
+
+##### 4. Dipendenti di un negozio ordinati per ruolo e anzianità
+
+- Mostra i dipendenti di un negozio ordinati per ruolo e data di assunzione.
+
+| Concetto   | Costrutto | Accessi | Tipo | Frequenza |
+|------------|-----------|---------|------|-----------|
+| Dipendente | E         | 1       | S    | 5 / mese  |
+| Negozio    | E         | 1       | S    |           |
+| Ruolo      | E         | 1       | S    |           |
+
+##### 5. Visualizzare le prenotazioni con dettagli cliente e negozio ordinate per data
+
+- Elenco delle prenotazioni effettuate in totale, in tutti i negozi per tutti i clienti, ordinate cronologicamente.  
+
+| Concetto     | Costrutto | Accessi | Tipo | Frequenza   |
+|--------------|-----------|---------|------|-------------|
+| Prenotazione | E         | 1       | S    | 1 / giorno  |
+| Cliente      | E         | 1       | S    |             |
+| Negozio      | E         | 1       | S    |             |
+
+##### 6. Visualizzare i prodotti all'interno dell'inventario di un negozio
+
+- Mostra i prodotti disponibili in un negozio con la quantità in magazzino.  
+- Aiuta nella gestione dello stock.
+
+| Concetto   | Costrutto | Accessi | Tipo | Frequenza     |
+|------------|-----------|---------|------|---------------|
+| Negozio    | E         | 1       | S    | 1 / settimana |
+| Inventario | R         | 1       | S    |               |
+| Prodotto   | E         | 1       | S    |               |
+
+##### 7. Visualizzare tutti gli ordini relativi ad un prodotto
+
+- Elenco degli ordini in cui è stato acquistato un determinato prodotto.  
+- Utile per monitorare la popolarità di un articolo.
+
+| Concetto        | Costrutto | Accessi | Tipo | Frequenza     |
+|-----------------|-----------|---------|------|---------------|
+| Ordine          | E         | 1       | S    | 1 / settimana |
+| DettaglioOrdine | R         | 1       | S    |               |
+| Prodotto        | E         | 1       | S    |               |
+
+##### 8. Visualizzare tutte le offerte relative ad un prodotto
+
+- Mostra le offerte attive per un prodotto, inclusi sconti e prezzi promozionali.  
+- Aiuta a tenere traccia delle promozioni in corso.  
+
+| Concetto | Costrutto | Accessi | Tipo | Frequenza     |
+|----------|-----------|---------|------|---------------|
+| Offerta  | E         | 1       | S    | 1 / settimana |
+| Applica  | R         | 1       | S    |               |
+| Prodotto | E         | 1       | S    |               |
+
+##### 9. Visualizzare tutti i feedback lasciati da un cliente
+
+- Elenco delle recensioni scritte da un cliente con valutazione, commento e data.  
+
+| Concetto  | Costrutto | Accessi | Tipo | Frequenza |
+|-----------|-----------|---------|------|-----------|
+| Feedback  | E         | 1       | S    | 5 / mese  |
+| Cliente   | E         | 1       | S    |           |
+
+##### 10. Visualizzare tutti i feedback relativi ad un dipendente
+
+- Mostra tutte le recensioni ricevute da un dipendente con valutazione e commento.  
+
+| Concetto   | Costrutto | Accessi | Tipo | Frequenza |
+|------------|-----------|---------|------|-----------|
+| Feedback   | E         | 1       | S    | 5 / mese  |
+| Dipendente | E         | 1       | S    |           |
+
+#### Di seguito sono mostrate delle query più complesse che possono beneficiare di indicizzazione e ottimizzazioni
 
 ##### 1. Aggiunta di una prenotazione
 
@@ -430,116 +578,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | Dipendente   | E         | 1       | S    |             |
 | Servizio     | E         | 1       | S    |             |
 
-##### 2. Visualizzare i turni di tutti i dipendenti per una data giornata
-
-- Mostra tutti i turni assegnati ai dipendenti in una determinata data.  
-- Include dati del dipendente, orari di inizio e fine turno, negozio associato.
-
-| Concetto     | Costrutto | Accessi | Tipo | Frequenza  |
-|--------------|-----------|---------|------|------------|
-| Turno        | E         | 1       | S    | 2 / giorno |
-| Assegnazione | R         | 1       | S    |            |
-| Dipendente   | E         | 1       | S    |            |
-
-##### 3. Visualizzare tutte le prenotazioni di un cliente
-
-- Elenco delle prenotazioni di un cliente con dettagli su stato, data, ora, negozio e servizio scelto.  
-- Utile per mostrare lo storico delle prenotazioni.  
-
-| Concetto     | Costrutto | Accessi | Tipo | Frequenza  |
-|--------------|-----------|---------|------|------------|
-| Prenotazione | E         | 1       | S    | 5 / giorno |
-| Cliente      | E         | 1       | S    |            |
-| Negozio      | E         | 1       | S    |            |
-| Servizio     | E         | 1       | S    |            |
-
-##### 4. Visualizzare tutti gli ordini di un cliente
-
-- Elenco degli ordini di un cliente con dettagli su data, stato e prodotti inclusi.  
-- Permette di visualizzare il totale degli acquisti effettuati.  
-
-| Concetto        | Costrutto | Accessi | Tipo | Frequenza  |
-|-----------------|-----------|---------|------|------------|
-| Ordine          | E         | 1       | S    | 5 / giorno |
-| Cliente         | E         | 1       | S    |            |
-| DettaglioOrdine | R         | 1       | S    |            |
-| Prodotto        | E         | 1       | S    |            |
-
-##### 5. Dipendenti di un negozio ordinati per ruolo e anzianità
-
-- Mostra i dipendenti di un negozio ordinati per ruolo e data di assunzione.  
-- Aiuta a capire la struttura gerarchica del personale.  
-
-| Concetto   | Costrutto | Accessi | Tipo | Frequenza |
-|------------|-----------|---------|------|-----------|
-| Dipendente | E         | 1       | S    | 5 / mese  |
-| Negozio    | E         | 1       | S    |           |
-| Ruolo      | E         | 1       | S    |           |
-
-##### 6. Visualizzare le prenotazioni con dettagli cliente e negozio ordinate per data
-
-- Elenco delle prenotazioni effettuate in totale, in tutti i negozi per tutti i clienti, ordinate cronologicamente.  
-
-| Concetto     | Costrutto | Accessi | Tipo | Frequenza   |
-|--------------|-----------|---------|------|-------------|
-| Prenotazione | E         | 1       | S    | 1 / giorno  |
-| Cliente      | E         | 1       | S    |             |
-| Negozio      | E         | 1       | S    |             |
-
-##### 7. Visualizzare i prodotti all'interno dell'inventario di un negozio
-
-- Mostra i prodotti disponibili in un negozio con la quantità in magazzino.  
-- Aiuta nella gestione dello stock.
-
-| Concetto   | Costrutto | Accessi | Tipo | Frequenza     |
-|------------|-----------|---------|------|---------------|
-| Negozio    | E         | 1       | S    | 1 / settimana |
-| Inventario | R         | 1       | S    |               |
-| Prodotto   | E         | 1       | S    |               |
-
-##### 8. Visualizzare tutti gli ordini relativi ad un prodotto
-
-- Elenco degli ordini in cui è stato acquistato un determinato prodotto.  
-- Utile per monitorare la popolarità di un articolo.
-
-| Concetto        | Costrutto | Accessi | Tipo | Frequenza     |
-|-----------------|-----------|---------|------|---------------|
-| Ordine          | E         | 1       | S    | 1 / settimana |
-| DettaglioOrdine | R         | 1       | S    |               |
-| Prodotto        | E         | 1       | S    |               |
-
-##### 9. Visualizzare tutte le offerte relative ad un prodotto
-
-- Mostra le offerte attive per un prodotto, inclusi sconti e prezzi promozionali.  
-- Aiuta a tenere traccia delle promozioni in corso.  
-
-| Concetto | Costrutto | Accessi | Tipo | Frequenza     |
-|----------|-----------|---------|------|---------------|
-| Offerta  | E         | 1       | S    | 1 / settimana |
-| Applica  | R         | 1       | S    |               |
-| Prodotto | E         | 1       | S    |               |
-
-##### 10. Visualizzare tutti i feedback lasciati da un cliente
-
-- Elenco delle recensioni scritte da un cliente con valutazione, commento e data.  
-
-| Concetto  | Costrutto | Accessi | Tipo | Frequenza |
-|-----------|-----------|---------|------|-----------|
-| Feedback  | E         | 1       | S    | 5 / mese  |
-| Cliente   | E         | 1       | S    |           |
-
-##### 11. Visualizzare tutti i feedback relativi ad un dipendente
-
-- Mostra tutte le recensioni ricevute da un dipendente con valutazione e commento.  
-
-| Concetto   | Costrutto | Accessi | Tipo | Frequenza |
-|------------|-----------|---------|------|-----------|
-| Feedback   | E         | 1       | S    | 5 / mese  |
-| Dipendente | E         | 1       | S    |           |
-
-#### Di seguito sono mostrate delle query più complesse che possono beneficiare di indicizzazione e ottimizzazioni
-
-##### 1. Calcolo delle entrate giornaliere di un negozio
+##### 2. Calcolo delle entrate giornaliere di un negozio
 
 - Determina le entrate totali di un negozio in una specifica giornata.  
 
@@ -548,7 +587,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | Entrata   | E         | 1       | S    | 1 / giorno |
 | Negozio   | E         | 1       | S    |            |
 
-##### 2. Calcolo delle vendite totali per prodotto
+##### 3. Calcolo delle vendite totali per prodotto
 
 - Conta quanti pezzi di un determinato prodotto sono stati venduti.  
 
@@ -558,7 +597,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | DettaglioOrdine | R         | 1       | S    |               |
 | Prodotto        | E         | 1       | S    |               |
 
-##### 3. Numero medio di appuntamenti per dipendente al mese
+##### 4. Numero medio di appuntamenti per dipendente al mese
 
 - Calcola la media delle prenotazioni gestite da ogni dipendente su base mensile.  
 
@@ -567,7 +606,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | Prenotazione | E         | 1       | S    | 1 / mese   |
 | Dipendente   | E         | 1       | S    |            |
 
-##### 4. Percentuale di prenotazioni cancellate rispetto al totale
+##### 5. Percentuale di prenotazioni cancellate rispetto al totale
 
 - Determina il rapporto tra prenotazioni cancellate e prenotazioni totali.  
 
@@ -575,7 +614,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 |--------------|-----------|---------|------|------------|
 | Prenotazione | E         | 1       | S    | 1 / mese   |
 
-##### 5. Elenco dei clienti con il totale speso negli ultimi sei mesi
+##### 6. Elenco dei clienti con il totale speso negli ultimi sei mesi
 
 - Calcola la spesa totale di ciascun cliente considerando gli ultimi sei mesi.  
 
@@ -586,7 +625,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | DettaglioOrdine | R         | 1       | S    |            |
 | Prodotto        | E         | 1       | S    |            |
 
-##### 6. Lista dei clienti che hanno acquistato almeno 3 volte nell’ultimo anno
+##### 7. Lista dei clienti che hanno acquistato almeno 3 volte nell’ultimo anno
 
 - Seleziona i clienti con almeno tre ordini registrati nell’ultimo anno.  
 
@@ -595,7 +634,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | Cliente  | E         | 1       | S    | 1 / mese   |
 | Ordine   | E         | 1       | S    |            |
 
-##### 7. Elenco di tutti i feedback con valutazione maggiore di 4
+##### 8. Elenco di tutti i feedback con valutazione maggiore di 4
 
 - Mostra i dipendenti che hanno ricevuto un feedback con valutazione superiore a 4.  
 

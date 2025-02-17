@@ -292,7 +292,7 @@ def insert_assegnazione_turno(n: int, n_dipendenti: int, n_turni: int, file: str
             'INSERT INTO AssegnazioneTurno (dataAssegnazione, note, DipendenteId, TurnoId) VALUES ' + ',\n'.join(values_assegnazione) + ';'
         )
 
-def insert_prenotazione(n: int, n_dipendenti: int, n_clienti: int, n_servizi: int, file: str):
+def insert_prenotazione(n: int, n_dipendenti: int, n_clienti: int, n_servizi: int, n_negozi: int, file: str):
      with open(file, 'w') as f:
         f.write(DATABASE)
         values_prenotazioni = []    
@@ -307,12 +307,13 @@ def insert_prenotazione(n: int, n_dipendenti: int, n_clienti: int, n_servizi: in
             cliente_id = random.randint(1, n_clienti)
             servizio_id = random.randint(1, n_servizi)
             dipendente_id = random.randint(1, n_dipendenti)
+            negozio_id = random.randint(1, n_negozi)
             
-            query = f'("{data_prenotazione}", "{ora_prenotazione}", "{stato}", {note}, {cliente_id}, {servizio_id}, {dipendente_id})'
+            query = f'("{data_prenotazione}", "{ora_prenotazione}", "{stato}", {note}, {cliente_id}, {servizio_id}, {dipendente_id}, {negozio_id})'
             values_prenotazioni.append(query)
 
         f.write(
-            'INSERT INTO Prenotazione (dataPrenotazione, oraPrenotazione, stato, note, ClienteId, ServizioId, DipendenteId) VALUES ' + ',\n'.join(values_prenotazioni) + ';'
+            'INSERT INTO Prenotazione (dataPrenotazione, oraPrenotazione, stato, note, ClienteId, ServizioId, DipendenteId, NegozioId) VALUES ' + ',\n'.join(values_prenotazioni) + ';'
         )
 
 def insert_feedback(n: int, n_clienti: int, n_dipendenti: int, file: str):
@@ -433,77 +434,77 @@ if __name__ == '__main__':
     OFFERTE = (200, 'offerte.sql')
     APPLICAOFFERTA = (1000, 'applica_offerta.sql')
     
-    print('[LOG]: Inserimento clienti...')
-    FILE = 'sql/inserts/' + CLIENTI[1]
-    insert_users(CLIENTI[0], FILE)
+    # print('[LOG]: Inserimento clienti...')
+    # FILE = 'sql/inserts/' + CLIENTI[1]
+    # insert_users(CLIENTI[0], FILE)
     
-    print('[LOG]: Inserimento carte di credito...')
-    FILE = 'sql/inserts/' + CARTE[1]
-    insert_carte_credito(CLIENTI[0], CARTE[0], FILE)
+    # print('[LOG]: Inserimento carte di credito...')
+    # FILE = 'sql/inserts/' + CARTE[1]
+    # insert_carte_credito(CLIENTI[0], CARTE[0], FILE)
 
-    print('[LOG]: Inserimento indirizzi di consegna...')
-    FILE = 'sql/inserts/' + INDIRIZZI[1]
-    insert_indirizzi_consegna(CLIENTI[0], INDIRIZZI[0], FILE)
+    # print('[LOG]: Inserimento indirizzi di consegna...')
+    # FILE = 'sql/inserts/' + INDIRIZZI[1]
+    # insert_indirizzi_consegna(CLIENTI[0], INDIRIZZI[0], FILE)
 
-    print('[LOG]: Inserimento spedizioni...')
-    FILE = 'sql/inserts/' + SPEDIZIONI[1]
-    insert_spedizioni(SPEDIZIONI[0], FILE)
+    # print('[LOG]: Inserimento spedizioni...')
+    # FILE = 'sql/inserts/' + SPEDIZIONI[1]
+    # insert_spedizioni(SPEDIZIONI[0], FILE)
 
-    print('[LOG]: Inserimento ordini...')
-    FILE = 'sql/inserts/' + ORDINI[1]
-    insert_ordini(SPEDIZIONI[0], CLIENTI[0], ORDINI[0], FILE)
+    # print('[LOG]: Inserimento ordini...')
+    # FILE = 'sql/inserts/' + ORDINI[1]
+    # insert_ordini(SPEDIZIONI[0], CLIENTI[0], ORDINI[0], FILE)
 
-    print('[LOG]: Inserimento prodotti...')
-    FILE = 'sql/inserts/' + PRODOTTI[1]
-    insert_prodotti(PRODOTTI[0], FILE)
+    # print('[LOG]: Inserimento prodotti...')
+    # FILE = 'sql/inserts/' + PRODOTTI[1]
+    # insert_prodotti(PRODOTTI[0], FILE)
 
-    print('[LOG]: Inserimento dettagli ordini...')
-    FILE = 'sql/inserts/' + DETTAGLIORDINI[1]
-    insert_dettagli_ordini(DETTAGLIORDINI[0], PRODOTTI[0], ORDINI[0], FILE)
+    # print('[LOG]: Inserimento dettagli ordini...')
+    # FILE = 'sql/inserts/' + DETTAGLIORDINI[1]
+    # insert_dettagli_ordini(DETTAGLIORDINI[0], PRODOTTI[0], ORDINI[0], FILE)
 
-    print('[LOG]: Inserimento turni...')
-    FILE = 'sql/inserts/' + TURNI[1]
-    insert_turni(TURNI[0], FILE)
+    # print('[LOG]: Inserimento turni...')
+    # FILE = 'sql/inserts/' + TURNI[1]
+    # insert_turni(TURNI[0], FILE)
 
-    print('[LOG]: Inserimento zone...')
-    FILE = 'sql/inserts/' + ZONE[1]
-    insert_zona(ZONE[0], FILE)
+    # print('[LOG]: Inserimento zone...')
+    # FILE = 'sql/inserts/' + ZONE[1]
+    # insert_zona(ZONE[0], FILE)
 
-    print('[LOG]: Inserimento negozi...')
-    FILE = 'sql/inserts/' + NEGOZI[1]
-    insert_negozi(NEGOZI[0], FILE, ZONE[0])
+    # print('[LOG]: Inserimento negozi...')
+    # FILE = 'sql/inserts/' + NEGOZI[1]
+    # insert_negozi(NEGOZI[0], FILE, ZONE[0])
 
-    print('[LOG]: Inserimento inventari...')
-    FILE = 'sql/inserts/' + INVENTARI[1]
-    insert_inventario(INVENTARI[0], NEGOZI[0], PRODOTTI[0], FILE)
+    # print('[LOG]: Inserimento inventari...')
+    # FILE = 'sql/inserts/' + INVENTARI[1]
+    # insert_inventario(INVENTARI[0], NEGOZI[0], PRODOTTI[0], FILE)
 
-    print('[LOG]: Inserimento dipendenti...')
-    FILE = 'sql/inserts/' + DIPENDENTI[1]
-    insert_dipendente(DIPENDENTI[0], RUOLI, NEGOZI[0], FILE)
+    # print('[LOG]: Inserimento dipendenti...')
+    # FILE = 'sql/inserts/' + DIPENDENTI[1]
+    # insert_dipendente(DIPENDENTI[0], RUOLI, NEGOZI[0], FILE)
 
-    print('[LOG]: Inserimento assegnazione turni...')
-    FILE = 'sql/inserts/' + ASSEGNAZIONETURNO[1]
-    insert_assegnazione_turno(ASSEGNAZIONETURNO[0], DIPENDENTI[0], 541, FILE)
+    # print('[LOG]: Inserimento assegnazione turni...')
+    # FILE = 'sql/inserts/' + ASSEGNAZIONETURNO[1]
+    # insert_assegnazione_turno(ASSEGNAZIONETURNO[0], DIPENDENTI[0], 548, FILE)
 
     print('[LOG]: Inserimento prenotazioni...')
     FILE = 'sql/inserts/' + PRENOTAZIONI[1]
-    insert_prenotazione(PRENOTAZIONI[0], DIPENDENTI[0], CLIENTI[0], SERVIZI, FILE)
+    insert_prenotazione(PRENOTAZIONI[0], DIPENDENTI[0], CLIENTI[0], SERVIZI, NEGOZI[0], FILE)
 
-    print('[LOG]: Inserimento feedback...')
-    FILE = 'sql/inserts/' + FEEDBACK[1]
-    insert_feedback(FEEDBACK[0], CLIENTI[0], DIPENDENTI[0], FILE)
+    # print('[LOG]: Inserimento feedback...')
+    # FILE = 'sql/inserts/' + FEEDBACK[1]
+    # insert_feedback(FEEDBACK[0], CLIENTI[0], DIPENDENTI[0], FILE)
 
-    print('[LOG]: Inserimento entrate...')
-    FILE = 'sql/inserts/' + ENTRATE[1]
-    insert_entrate(ENTRATE[0], NEGOZI[0], FILE)
+    # print('[LOG]: Inserimento entrate...')
+    # FILE = 'sql/inserts/' + ENTRATE[1]
+    # insert_entrate(ENTRATE[0], NEGOZI[0], FILE)
 
-    print('[LOG]: Inserimento offerte...')
-    FILE = 'sql/inserts/' + OFFERTE[1]
-    insert_offerte(OFFERTE[0], FILE)
+    # print('[LOG]: Inserimento offerte...')
+    # FILE = 'sql/inserts/' + OFFERTE[1]
+    # insert_offerte(OFFERTE[0], FILE)
 
-    print('[LOG]: Inserimento applica offerta...')
-    FILE = 'sql/inserts/' + APPLICAOFFERTA[1]
-    insert_applica_offerta(APPLICAOFFERTA[0], FILE)
+    # print('[LOG]: Inserimento applica offerta...')
+    # FILE = 'sql/inserts/' + APPLICAOFFERTA[1]
+    # insert_applica_offerta(APPLICAOFFERTA[0], FILE)
     
     print('[LOG]: Creazione file di inserimento finito!')
     

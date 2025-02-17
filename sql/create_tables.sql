@@ -214,9 +214,11 @@ CREATE TABLE
         ClienteId INT,
         ServizioId INT,
         DipendenteId INT,
+        NegozioId INT,
         FOREIGN KEY (ClienteId) REFERENCES Cliente (ClienteId) ON DELETE SET NULL,
         FOREIGN KEY (ServizioId) REFERENCES Servizio (ServizioId) ON DELETE CASCADE,
         FOREIGN KEY (DipendenteId) REFERENCES Dipendente (DipendenteId) ON DELETE SET NULL,
+        FOREIGN KEY (NegozioId) REFERENCES Negozio (NegozioId) ON DELETE SET NULL,
         UNIQUE (DipendenteId, dataPrenotazione, oraPrenotazione) -- Evita doppie prenotazioni per lo stesso barbiere
     ) ENGINE = INNODB;
 
