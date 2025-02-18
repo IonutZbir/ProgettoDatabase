@@ -430,14 +430,26 @@ Le chiavi primarie sono identificate in **grassetto**, mentre le chiavi secondar
 | Dipendente   | E         | 1       | S    |            |
 
 ```Sql
-CREATE VIEW Disposizione_turni AS
-SELECT d.DipendenteId AS Matricola, d.Nome, d.Cognome, n.Nome AS Negozio, r.tipoRuolo AS Ruolo, a.Note, t.Data, t.OraInizio, t.OraFine  
-FROM Dipendente d
-JOIN Ruolo r ON d.RuoloId = r.RuoloId
-JOIN Negozio n ON d.NegozioId = n.NegozioId
-JOIN AssegnazioneTurno a ON d.DipendenteId = a.DipendenteId
-JOIN Turno t ON t.TurnoId = a.TurnoId 
-WHERE Data = "2024-02-14";
+CREATE VIEW
+    Dsiposizione_Turni AS
+SELECT
+    d.DipendenteId AS Matricola,
+    d.Nome,
+    d.Cognome,
+    n.Nome AS Negozio,
+    r.tipoRuolo AS Ruolo,
+    a.Note,
+    t.Data,
+    t.OraInizio,
+    t.OraFine
+FROM
+    Dipendente d
+    JOIN Ruolo r ON d.RuoloId = r.RuoloId
+    JOIN Negozio n ON d.NegozioId = n.NegozioId
+    JOIN AssegnazioneTurno a ON d.DipendenteId = a.DipendenteId
+    JOIN Turno t ON t.TurnoId = a.TurnoId
+WHERE
+    Data = "2024-02-14";
 ```
 
 | Matricola | Nome      | Cognome    | Negozio                                | Ruolo                | Note     | Data       | OraInizio | OraFine  |
@@ -465,14 +477,28 @@ WHERE Data = "2024-02-14";
 | Servizio     | E         | 1       | S    |            |
 
 ```Sql
-CREATE VIEW Prenotazione_Per_Cliente AS
-SELECT c.Nome AS Nome_Cliente, c.cognome AS Cognome_Cliente, p.dataPrenotazione, p.oraPrenotazione, p.stato, p.note, n.nome AS Negozio, d.nome, d.cognome, s.nome AS Servizio
-FROM Prenotazione p
-JOIN Servizio s ON s.ServizioId = p.ServizioId
-JOIN Dipendente d ON p.DipendenteId = d.DipendenteId
-JOIN Negozio n ON p.NegozioId = n.NegozioId
-JOIN Cliente c ON p.ClienteId = c.ClienteId
-WHERE c.Nome = "Filippo" AND c.Cognome = "Gussoni";
+CREATE VIEW
+    Prenotazione_Per_Cliente AS
+SELECT
+    c.Nome AS Nome_Cliente,
+    c.cognome AS Cognome_Cliente,
+    p.dataPrenotazione,
+    p.oraPrenotazione,
+    p.stato,
+    p.note,
+    n.nome AS Negozio,
+    d.nome,
+    d.cognome,
+    s.nome AS Servizio
+FROM
+    Prenotazione p
+    JOIN Servizio s ON s.ServizioId = p.ServizioId
+    JOIN Dipendente d ON p.DipendenteId = d.DipendenteId
+    JOIN Negozio n ON p.NegozioId = n.NegozioId
+    JOIN Cliente c ON p.ClienteId = c.ClienteId
+WHERE
+    c.Nome = "Filippo"
+    AND c.Cognome = "Gussoni";
 ```
 
 | Nome_Cliente | Cognome_Cliente | dataPrenotazione | oraPrenotazione | stato      | note          | Negozio                               | nome    | cognome    | Servizio                    |
@@ -494,13 +520,21 @@ WHERE c.Nome = "Filippo" AND c.Cognome = "Gussoni";
 | Prodotto        | E         | 1       | S    |            |
 
 ```Sql
-CREATE VIEW Ordini_Per_Cliente AS
-SELECT o.stato AS StatoOrdine, o.dataOrdine, p.Nome AS NomeProdotto
-FROM Ordine o
-JOIN DettaglioOrdine d ON d.OrdineId = o.OrdineId
-JOIN Prodotto p ON p.ProdottoID = d.ProdottoID
-JOIN Cliente c ON o.ClienteId = c.ClienteId
-WHERE c.nome = 'Tullio' AND c.cognome = 'Versace';
+
+CREATE VIEW
+    Ordini_Per_Cliente AS
+SELECT
+    o.stato AS StatoOrdine,
+    o.dataOrdine,
+    p.Nome AS NomeProdotto
+FROM
+    Ordine o
+    JOIN DettaglioOrdine d ON d.OrdineId = o.OrdineId
+    JOIN Prodotto p ON p.ProdottoID = d.ProdottoID
+    JOIN Cliente c ON o.ClienteId = c.ClienteId
+WHERE
+    c.nome = 'Tullio'
+    AND c.cognome = 'Versace';
 ```
 
 | StatoOrdine | dataOrdine | NomeProdotto              |
@@ -525,24 +559,32 @@ WHERE c.nome = 'Tullio' AND c.cognome = 'Versace';
 | Ruolo      | E         | 1       | S    |           |
 
 ```Sql
-CREATE VIEW Visualizza_Dipendenti AS
-SELECT d.dataAssunzione, d.nome, d.cognome, r.tipoRuolo AS Ruolo
-FROM Dipendente d
-JOIN Ruolo r ON d.RuoloId = r.RuoloId
-JOIN Negozio n ON n.NegozioId =  d.NegozioId
-ORDER BY r.tipoRuolo, d.dataAssunzione;
+CREATE VIEW
+    Visualizza_Dipendenti AS
+SELECT
+    d.dataAssunzione,
+    d.nome,
+    d.cognome,
+    r.tipoRuolo AS Ruolo
+FROM
+    Dipendente d
+    JOIN Ruolo r ON d.RuoloId = r.RuoloId
+    JOIN Negozio n ON n.NegozioId = d.NegozioId
+ORDER BY
+    r.tipoRuolo,
+    d.dataAssunzione;
 ```
 
 | dataAssunzione | nome     | cognome   | Ruolo    |
 |----------------|----------|-----------|----------|
 | 2011-06-09     | Lorenzo  | Turchetta | Barbiere |
-| 2011-10-14     | Giorgia  | Gasperi   | Barbiere |
-| 2012-02-27     | Vittoria | Mazzanti  | Barbiere |
+| 2011-10-14     | Giorgio  | Gasperi   | Barbiere |
+| 2012-02-27     | Vittorio | Mazzanti  | Barbiere |
 | 2012-05-19     | Milo     | Veneziano | Barbiere |
 | 2013-01-04     | Alessio  | Montesano | Barbiere |
-| 2013-05-25     | Tina     | Papetti   | Barbiere |
-| 2014-10-19     | Cecilia  | Deledda   | Barbiere |
-| 2016-07-02     | Tonia    | Giradello | Barbiere |
+| 2013-05-25     | Pino     | Papetti   | Barbiere |
+| 2014-10-19     | Mirco    | Deledda   | Barbiere |
+| 2016-07-02     | Toni     | Giradello | Barbiere |
 | 2017-03-24     | Paolo    | Salvini   | Barbiere |
 
 ##### 5. Visualizzare le prenotazioni con dettagli cliente e negozio ordinate per data
@@ -556,12 +598,21 @@ ORDER BY r.tipoRuolo, d.dataAssunzione;
 | Negozio      | E         | 1       | S    |             |
 
 ```Sql
-CREATE VIEW Prenotazioni_Clienti AS
-SELECT c.nome, c.cognome, p.dataPrenotazione, p.oraPrenotazione, n.nome AS NomeNegozio
-FROM Prenotazione p
-JOIN Cliente c ON c.ClienteId = p.ClienteId
-JOIN Negozio n ON n.NegozioId = p.NegozioId
-ORDER BY p.dataPrenotazione, p.oraPrenotazione;
+CREATE VIEW
+    Prenotazioni_Clienti AS
+SELECT
+    c.nome,
+    c.cognome,
+    p.dataPrenotazione,
+    p.oraPrenotazione,
+    n.nome AS NomeNegozio
+FROM
+    Prenotazione p
+    JOIN Cliente c ON c.ClienteId = p.ClienteId
+    JOIN Negozio n ON n.NegozioId = p.NegozioId
+ORDER BY
+    p.dataPrenotazione,
+    p.oraPrenotazione;
 ```
 
 | nome      | cognome  | dataPrenotazione | oraPrenotazione | NomeNegozio                            |
@@ -587,12 +638,19 @@ ORDER BY p.dataPrenotazione, p.oraPrenotazione;
 | Prodotto   | E         | 1       | S    |               |
 
 ```Sql
-CREATE VIEW Inventario_Negozio AS
-SELECT p.nome, p.categoria, i.quantita, n.nome AS NomeNegozio
-FROM Inventario i
-JOIN Prodotto p ON i.ProdottoId = p.ProdottoId
-JOIN Negozio n ON i.NegozioId = n.NegozioId
-WHERE n.nome = 'Roero Group';
+CREATE VIEW
+    Inventario_Negozio AS
+SELECT
+    p.nome,
+    p.categoria,
+    i.quantita,
+    n.nome AS NomeNegozio
+FROM
+    Inventario i
+    JOIN Prodotto p ON i.ProdottoId = p.ProdottoId
+    JOIN Negozio n ON i.NegozioId = n.NegozioId
+WHERE
+    n.nome = 'BarberiaNord';
 ```
 
 | nome                  | categoria       | quantità | NomeNegozio |
@@ -617,12 +675,17 @@ WHERE n.nome = 'Roero Group';
 | Prodotto        | E         | 1       | S    |               |
 
 ```Sql
-CREATE VIEW Ordini_Per_Prodotto AS
-SELECT o.dataOrdine, o.stato
-FROM Prodotto p
-JOIN DettaglioOrdine d ON d.ProdottoId = p.ProdottoId
-JOIN Ordine o ON o.OrdineId = d.OrdineId
-WHERE p.nome = 'Balsamo Pantene';
+CREATE VIEW
+    Ordini_Per_Prodotto AS
+SELECT
+    o.dataOrdine,
+    o.stato
+FROM
+    Prodotto p
+    JOIN DettaglioOrdine d ON d.ProdottoId = p.ProdottoId
+    JOIN Ordine o ON o.OrdineId = d.OrdineId
+WHERE
+    p.nome = 'Balsamo Pantene';
 ```
 
 | dataOrdine | stato      |
@@ -638,7 +701,7 @@ WHERE p.nome = 'Balsamo Pantene';
 | 2024-06-27 | Annullato  |
 | 2024-09-24 | Rifiutato  |
 
-##### 8. Visualizzare tutte le offerte relative ad un prodotto
+##### 8. Visualizzare tutte le offerte r09elative ad un prodotto
 
 - Mostra le offerte attive per un prodotto, inclusi sconti e prezzi promozionali.  
 - Aiuta a tenere traccia delle promozioni in corso.  
@@ -649,14 +712,69 @@ WHERE p.nome = 'Balsamo Pantene';
 | Applica  | R         | 1       | S    |               |
 | Prodotto | E         | 1       | S    |               |
 
+```Sql
+CREATE VIEW
+    Offerte_Per_Prodotto AS
+SELECT
+    o.tipoOfferta,
+    a.dataInizio,
+    a.dataFine,
+    a.PercentualeSconto,
+    a.PrezzoPromozionale,
+    o.tipoOfferta,
+    o.descrizione
+FROM
+    ApplicaOfferta a
+    JOIN Offerta o ON a.OffertaId = o.OffertaId
+    JOIN Prodotto p ON a.ProdottoId = p.ProdottoId
+WHERE
+    p.nome = 'Rasoio Philips'
+    AND p.Vendibille = 1;
+```
+
+| Data Inizio | Data Fine  | Percentuale Sconto | Prezzo Promozionale | Tipo Offerta   | Descrizione                                                                                               |
+|-------------|------------|--------------------|---------------------|----------------|-----------------------------------------------------------------------------------------------------------|
+| 2024-04-22  | 2025-07-19 | *NULL*             | 45               | Sconto Fisso   | Rasoio di sicurezza in acciaio inox con testina regolabile per una rasatura personalizzata.               |
+| 2024-03-16  | 2024-12-27 | *NULL*             | 50               | Promo Speciale | Rasoio a mano libera in edizione limitata, con impugnatura in legno di noce e lama affilata a mano.       |
+| 2024-07-19  | 2025-04-16 | *NULL*             | 25                | Promo Speciale | Rasoio con testina a doppia lama, perfetto per una rasatura profonda e precisa.                           |
+| 2024-06-09  | 2025-01-04 | 40              | *NULL*              | Percentuale    | Sconto del 40% su un rasoio di sicurezza con manico ergonomico per una presa salda e sicura.           |
+| 2024-06-03  | 2024-12-21 | *NULL*             | *20*              | Sconto Fisso   | Offerta speciale su un rasoio a cartuccia con testine intercambiabili per una rasatura scorrevole.        |
+| 2024-09-30  | 2025-10-11 | *NULL*             | *20*              | Percentuale    | Sconto su un rasoio elettrico con tecnologia a lame flottanti per una rasatura precisa e delicata.        |
+| 2024-04-11  | 2026-01-02 | *NULL*             | 20               | Sconto Fisso   | Rasoio classico con testina aperta e design vintage, perfetto per gli amanti della rasatura tradizionale. |
+
 ##### 9. Visualizzare tutti i feedback lasciati da un cliente
 
 - Elenco delle recensioni scritte da un cliente con valutazione, commento e data.  
 
-| Concetto  | Costrutto | Accessi | Tipo | Frequenza |
-|-----------|-----------|---------|------|-----------|
-| Feedback  | E         | 1       | S    | 5 / mese  |
-| Cliente   | E         | 1       | S    |           |
+| Concetto     | Costrutto | Accessi | Tipo | Frequenza |
+|--------------|-----------|---------|------|-----------|
+| Feedback     | E         | 1       | S    | 5 / mese  |
+| Cliente      | E         | 1       | S    |           |
+| Prenotazione | E         | 1       | S    |           |
+
+```Sql
+CREATE VIEW
+    Feedback_Per_Utente AS
+SELECT
+    p.dataPrenotazione,
+    p.oraPrenotazione,
+    f.valutazione,
+    f.commento,
+    f.dataFeedback
+FROM
+    Feedback f
+    JOIN Cliente c ON c.ClienteId = f.ClienteId
+    JOIN Prenotazione p ON p.PrenotazioneId = f.PrenotazioneId
+WHERE
+    c.nome = 'Mario'
+    and c.cognome = 'Rossi'
+```
+
+| Data Prenotazione | Ora Prenotazione | Valutazione | Commento                                                                                                                 | Data Feedback |
+|-------------------|------------------|-------------|--------------------------------------------------------------------------------------------------------------------------|---------------|
+| 2024-08-20        | 10:30:00         | 3           | Il taglio è stato buono, ma la rasatura non era perfettamente uniforme. Il barbiere è stato comunque gentile.            | 2024-8-21    |
+| 2024-03-27        | 15:45:00         | 4           | Ottima esperienza! Il barbiere è stato molto attento ai dettagli e la rasatura è stata impeccabile. Tornerò sicuramente. | 2024-03-27    |
+| 2024-09-13        | 08:15:00         | 3           | Ambiente accogliente e personale cortese, ma ho dovuto aspettare più del previsto per il mio appuntamento.               | 2024-09-14    |
 
 ##### 10. Visualizzare tutti i feedback relativi ad un dipendente
 
@@ -667,21 +785,39 @@ WHERE p.nome = 'Balsamo Pantene';
 | Feedback   | E         | 1       | S    | 5 / mese  |
 | Dipendente | E         | 1       | S    |           |
 
+```Sql
+CREATE VIEW
+    Feedback_Per_Dipendente
+SELECT
+    d.DipendenteId,
+    p.dataPrenotazione,
+    p.oraPrenotazione,
+    c.nome AS NomeCliente,
+    c.cognome CognomeCliente,
+    f.valutazione,
+    f.commento,
+    f.dataFeedback
+FROM
+    Feedback f
+    JOIN Cliente c ON f.ClienteId = c.ClienteId
+    JOIN Prenotazione p ON f.PrenotazioneId = p.PrenotazioneId
+    JOIN Dipendente d ON d.DipendenteId = p.DipendenteId
+WHERE
+    d.nome = 'Stefani'
+    AND d.cognome = 'Gianinazzi';
+```
+
+| Dipendente ID | Data Prenotazione | Ora Prenotazione | Nome Cliente | Cognome Cliente | Valutazione | Commento                                                                                         | Data Feedback |
+|---------------|-------------------|------------------|--------------|-----------------|-------------|--------------------------------------------------------------------------------------------------|---------------|
+| 219           | 2024-12-30        | 10:30:00         | Gino         | Galtarossa      | 1           | Il taglio non è stato eseguito come richiesto. Il servizio poteva essere più curato.             | 2024-12-30    |
+| 219           | 2024-11-15        | 14:15:00         | Marco        | Bianchi         | 4           | Ottimo servizio, il barbiere è stato molto attento ai dettagli e ha rispettato le mie richieste. | 2024-11-16    |
+| 219           | 2024-10-05        | 09:00:00         | Luca         | Rossi           | 3           | Taglio discreto, ma il tempo di attesa è stato un po' lungo nonostante la prenotazione.          | 2024-10-07    |
+| 219           | 2024-09-20        | 17:45:00         | Andrea       | Verdi           | 5           | Servizio eccellente! Il miglior taglio che abbia mai ricevuto, tornerò sicuramente.              | 2024-09-22    |
+| 219           | 2024-08-08        | 12:00:00         | Stefano      | Conti           | 2           | Il barbiere è stato gentile, ma il risultato finale non mi ha soddisfatto del tutto.             | 2024-08-10    |
+
 #### Di seguito sono mostrate delle query più complesse che possono beneficiare di indicizzazione e ottimizzazioni
 
-##### 1. Aggiunta di una prenotazione
-
-Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno specifico negozio con uno specifico servizio che sarà poi gestita da un dipendente.
-
-| Concetto     | Costrutto | Accessi | Tipo | Frequenza   |
-|--------------|-----------|---------|------|-------------|
-| Prenotazione | E         | 1       | S    | 15 / giorno |
-| Negozio      | E         | 1       | S    |             |
-| Cliente      | E         | 1       | S    |             |
-| Dipendente   | E         | 1       | S    |             |
-| Servizio     | E         | 1       | S    |             |
-
-##### 2. Calcolo delle entrate giornaliere di un negozio
+##### 1. Calcolo delle entrate giornaliere di un negozio
 
 - Determina le entrate totali di un negozio in una specifica giornata.  
 
@@ -690,7 +826,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | Entrata   | E         | 1       | S    | 1 / giorno |
 | Negozio   | E         | 1       | S    |            |
 
-##### 3. Calcolo delle vendite totali per prodotto
+##### 2. Calcolo delle vendite totali per prodotto
 
 - Conta quanti pezzi di un determinato prodotto sono stati venduti.  
 
@@ -700,7 +836,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | DettaglioOrdine | R         | 1       | S    |               |
 | Prodotto        | E         | 1       | S    |               |
 
-##### 4. Numero medio di appuntamenti per dipendente al mese
+##### 3. Numero medio di appuntamenti per dipendente al mese
 
 - Calcola la media delle prenotazioni gestite da ogni dipendente su base mensile.  
 
@@ -709,7 +845,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | Prenotazione | E         | 1       | S    | 1 / mese   |
 | Dipendente   | E         | 1       | S    |            |
 
-##### 5. Percentuale di prenotazioni cancellate rispetto al totale
+##### 4. Percentuale di prenotazioni cancellate rispetto al totale
 
 - Determina il rapporto tra prenotazioni cancellate e prenotazioni totali.  
 
@@ -717,7 +853,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 |--------------|-----------|---------|------|------------|
 | Prenotazione | E         | 1       | S    | 1 / mese   |
 
-##### 6. Elenco dei clienti con il totale speso negli ultimi sei mesi
+##### 5. Elenco dei clienti con il totale speso negli ultimi sei mesi
 
 - Calcola la spesa totale di ciascun cliente considerando gli ultimi sei mesi.  
 
@@ -728,7 +864,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | DettaglioOrdine | R         | 1       | S    |            |
 | Prodotto        | E         | 1       | S    |            |
 
-##### 7. Lista dei clienti che hanno acquistato almeno 3 volte nell’ultimo anno
+##### 6. Lista dei clienti che hanno acquistato almeno 3 volte nell’ultimo anno
 
 - Seleziona i clienti con almeno tre ordini registrati nell’ultimo anno.  
 
@@ -737,7 +873,7 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 | Cliente  | E         | 1       | S    | 1 / mese   |
 | Ordine   | E         | 1       | S    |            |
 
-##### 8. Elenco di tutti i feedback con valutazione maggiore di 4
+##### 7. Elenco di tutti i feedback con valutazione maggiore di 4
 
 - Mostra i dipendenti che hanno ricevuto un feedback con valutazione superiore a 4.  
 
@@ -753,3 +889,295 @@ Dato un cliente, inseriamo nel sistema una nuova prenotazione riferita ad uno sp
 ### 2. Cosciotti
 
 ### 3. Porzia
+
+## Schema Fisico
+
+![Logico](images/fisico.png){width="800" style="display: block; margin: 0 auto"}
+
+```Sql
+use Torverbarber;
+
+CREATE TABLE
+    IF NOT EXISTS Cliente (
+        ClienteId INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(50) NOT NULL,
+        cognome VARCHAR(50) NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL, -- Password criptata con hashing
+        cellulare VARCHAR(20),
+        dataRegistrazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS CartaCredito (
+        CartaCreditoId INT AUTO_INCREMENT PRIMARY KEY,
+        numeroCarta VARCHAR(16) UNIQUE NOT NULL,
+        dataScadenza DATE NOT NULL,
+        cvv VARCHAR(4) NOT NULL,
+        ClienteId INT NOT NULL,
+        FOREIGN KEY (ClienteId) REFERENCES Cliente (ClienteId) ON DELETE CASCADE
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS IndirizzoConsegna (
+        IndirizzoId INT AUTO_INCREMENT PRIMARY KEY,
+        via VARCHAR(100) NOT NULL,
+        civico VARCHAR(10) NOT NULL,
+        citta VARCHAR(50) NOT NULL,
+        cap VARCHAR(10) NOT NULL,
+        paese VARCHAR(50) NOT NULL,
+        provincia VARCHAR(50) NOT NULL,
+        predefinito TINYINT (1) DEFAULT 0 CHECK (predefinito IN (0, 1)),
+        ClienteId INT NOT NULL,
+        FOREIGN KEY (ClienteId) REFERENCES Cliente (ClienteId) ON DELETE CASCADE
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Spedizione (
+        SpedizioneId INT AUTO_INCREMENT PRIMARY KEY,
+        dataSpedizione DATE NOT NULL,
+        dataConsegna DATE,
+        corriere VARCHAR(50),
+        stato ENUM (
+            'In preparazione',
+            'In transito',
+            'Consegnato',
+            'Reso',
+            'Annullata'
+        ) NOT NULL,
+        CHECK (
+            dataConsegna IS NULL
+            OR dataConsegna >= dataSpedizione
+        ) -- Impedisce che la consegna sia prima della spedizione
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Ordine (
+        OrdineId INT AUTO_INCREMENT PRIMARY KEY,
+        dataOrdine DATE NOT NULL,
+        stato ENUM (
+            'In attesa',
+            'Elaborato',
+            'Spedito',
+            'Consegnato',
+            'Annullato',
+            'Rifiutato'
+        ) NOT NULL,
+        ClienteId INT,
+        SpedizioneId INT,
+        FOREIGN KEY (ClienteId) REFERENCES Cliente (ClienteId) ON DELETE SET NULL, -- Manteniamo gli ordini ma con ClienteId a NULL per avere lo storico degli ordini
+        FOREIGN KEY (SpedizioneId) REFERENCES Spedizione (SpedizioneId) ON DELETE SET NULL
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Prodotto (
+        ProdottoId INT AUTO_INCREMENT PRIMARY KEY,
+        codiceBarre CHAR(13) UNIQUE NOT NULL,
+        nome VARCHAR(100) NOT NULL,
+        categoria ENUM (
+            'Shampoo',
+            'Balsamo',
+            'Cera',
+            'Gel',
+            'Rasoi Manuali',
+            'Rasoi Elettrici',
+            'Strumenti',
+            'Altro'
+        ) NOT NULL,
+        prezzo DECIMAL(10, 2) NOT NULL CHECK (prezzo > 0),
+        descrizione TEXT,
+        vendibile TINYINT (1) DEFAULT 0 CHECK (vendibile IN (0, 1)),
+        INDEX (categoria) -- Indice per ricerche più veloci
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS DettaglioOrdine (
+        quantita INT NOT NULL CHECK (quantita > 0),
+        OrdineId INT,
+        ProdottoId INT,
+        PRIMARY KEY (OrdineId, ProdottoId),
+        FOREIGN KEY (OrdineId) REFERENCES Ordine (OrdineId) ON DELETE CASCADE,
+        FOREIGN KEY (ProdottoId) REFERENCES Prodotto (ProdottoId) ON DELETE CASCADE
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Turno (
+        TurnoId INT AUTO_INCREMENT PRIMARY KEY,
+        data DATE NOT NULL,
+        oraInizio TIME NOT NULL,
+        oraFine TIME NOT NULL,
+        CHECK (oraFine > oraInizio), -- Assicura che l'orario di fine sia successivo a quello di inizio
+        UNIQUE (data, oraInizio, oraFine) -- Evita turni duplicati
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Ruolo (
+        RuoloId INT AUTO_INCREMENT PRIMARY KEY,
+        tipoRuolo VARCHAR(50) UNIQUE NOT NULL,
+        livelloStipendiale INT NOT NULL CHECK (livelloStipendiale BETWEEN 1 AND 5)
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Servizio (
+        ServizioId INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(100) UNIQUE NOT NULL,
+        descrizione TEXT,
+        prezzo DECIMAL(10, 2) NOT NULL CHECK (prezzo > 0),
+        durataMinuti INT NOT NULL CHECK (durataMinuti > 0), -- Durata del servizio in minuti
+        INDEX (nome)
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Zona (
+        ZonaId INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(100) UNIQUE NOT NULL,
+        descrizione TEXT
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Negozio (
+        NegozioId INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(100) NOT NULL,
+        via VARCHAR(100) NOT NULL,
+        civico VARCHAR(10) NOT NULL,
+        citta VARCHAR(50) NOT NULL,
+        cap VARCHAR(10) NOT NULL,
+        telefono VARCHAR(20),
+        orarioApertura TIME NOT NULL,
+        orarioChiusura TIME NOT NULL CHECK (OrarioChiusura > OrarioApertura), -- Impredisce orari errati 
+        email VARCHAR(100) UNIQUE NOT NULL,
+        ZonaId INT,
+        FOREIGN KEY (ZonaId) REFERENCES Zona (ZonaId) ON DELETE SET NULL
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Inventario (
+        quantita INT NOT NULL CHECK (quantita >= 0),
+        ultimaModifica TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Tiene traccia dell'ultima modifica
+        ProdottoId INT,
+        NegozioId INT,
+        PRIMARY KEY (ProdottoId, NegozioId),
+        FOREIGN KEY (ProdottoId) REFERENCES Prodotto (ProdottoId) ON DELETE CASCADE,
+        FOREIGN KEY (NegozioId) REFERENCES Negozio (NegozioId) ON DELETE CASCADE
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Dipendente (
+        DipendenteId INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(50) NOT NULL,
+        cognome VARCHAR(50) NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL, -- Password cifrata
+        cellulare VARCHAR(20),
+        dataNascita DATE NOT NULL,
+        dataAssunzione DATE NOT NULL,
+        CHECK (dataAssunzione > dataNascita),
+        stipendio DECIMAL(10, 2) NOT NULL CHECK (stipendio > 0),
+        RuoloId INT,
+        NegozioId INT,
+        FOREIGN KEY (RuoloId) REFERENCES Ruolo (RuoloId) ON DELETE SET NULL,
+        FOREIGN KEY (NegozioId) REFERENCES Negozio (NegozioId) ON DELETE SET NULL
+    ) ENGINE = INNODB;
+
+ALTER TABLE Zona ADD ResponsabileID INT;
+
+ALTER TABLE Zona ADD CONSTRAINT fk_responsabile FOREIGN KEY (ResponsabileID) REFERENCES Dipendente (DipendenteId) ON DELETE SET NULL;
+
+CREATE TABLE
+    IF NOT EXISTS AssegnazioneTurno (
+        dataAssegnazione DATE NOT NULL,
+        note TEXT,
+        DipendenteId INT,
+        TurnoId INT,
+        PRIMARY KEY (DipendenteId, TurnoId),
+        UNIQUE (DipendenteId, dataAssegnazione), -- Evita doppie assegnazioni nello stesso giorno
+        FOREIGN KEY (DipendenteId) REFERENCES Dipendente (DipendenteId) ON DELETE CASCADE,
+        FOREIGN KEY (TurnoId) REFERENCES Turno (TurnoId) ON DELETE CASCADE
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Prenotazione (
+        PrenotazioneId INT AUTO_INCREMENT PRIMARY KEY,
+        dataPrenotazione DATE NOT NULL,
+        oraPrenotazione TIME NOT NULL,
+        stato ENUM (
+            'In attesa',
+            'Confermato',
+            'Annullato',
+            'Completato',
+            'No-Show'
+        ) NOT NULL,
+        note TEXT,
+        ClienteId INT,
+        ServizioId INT,
+        DipendenteId INT,
+        NegozioId INT,
+        FOREIGN KEY (ClienteId) REFERENCES Cliente (ClienteId) ON DELETE SET NULL,
+        FOREIGN KEY (ServizioId) REFERENCES Servizio (ServizioId) ON DELETE CASCADE,
+        FOREIGN KEY (DipendenteId) REFERENCES Dipendente (DipendenteId) ON DELETE SET NULL,
+        FOREIGN KEY (NegozioId) REFERENCES Negozio (NegozioId) ON DELETE SET NULL,
+        UNIQUE (DipendenteId, dataPrenotazione, oraPrenotazione) -- Evita doppie prenotazioni per lo stesso barbiere
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Feedback (
+        FeedbackId INT AUTO_INCREMENT PRIMARY KEY,
+        valutazione INT NOT NULL CHECK (valutazione BETWEEN 1 AND 5),
+        commento TEXT,
+        dataFeedback DATE NOT NULL DEFAULT CURDATE (),
+        ClienteId INT,
+        PrenotazioneId INT UNIQUE, -- Impedisce più feedback sulla stessa prenotazione
+        FOREIGN KEY (ClienteId) REFERENCES Cliente (ClienteId) ON DELETE SET NULL,
+        FOREIGN KEY (PrenotazioneId) REFERENCES Prenotazione (PrenotazioneId) ON DELETE CASCADE
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Entrata (
+        EntrataId INT AUTO_INCREMENT PRIMARY KEY,
+        dataEntrata DATE NOT NULL DEFAULT CURDATE (), -- Se non specificata, usa la data attuale
+        importo DECIMAL(10, 2) NOT NULL CHECK (importo > 0),
+        metodoPagamento ENUM ('Contanti', 'Carta', 'PayPal') NOT NULL,
+        descrizione TEXT,
+        NegozioId INT,
+        FOREIGN KEY (NegozioId) REFERENCES Negozio (NegozioId) ON DELETE CASCADE
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS Offerta (
+        OffertaId INT AUTO_INCREMENT PRIMARY KEY,
+        tipoOfferta ENUM ('Percentuale', 'Sconto Fisso', 'Promo Speciale') NOT NULL,
+        descrizione TEXT NOT NULL
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS ApplicaOfferta (
+        OffertaId INT,
+        ProdottoId INT,
+        PercentualeSconto DECIMAL(5, 2) CHECK (PercentualeSconto BETWEEN 0 AND 100),
+        ScontoFisso DECIMAL(10, 2) CHECK (ScontoFisso >= 0),
+        PrezzoPromozionale DECIMAL(10, 2) CHECK (PrezzoPromozionale >= 0),
+        dataInizio DATE NOT NULL,
+        dataFine DATE NOT NULL,
+        CHECK (dataFine >= dataInizio), -- Impedisce date errate
+        CHECK (
+            (
+                PercentualeSconto IS NOT NULL
+                AND ScontoFisso IS NULL
+                AND PrezzoPromozionale IS NULL
+            )
+            OR (
+                PercentualeSconto IS NULL
+                AND ScontoFisso IS NOT NULL
+                AND PrezzoPromozionale IS NULL
+            )
+            OR (
+                PercentualeSconto IS NULL
+                AND ScontoFisso IS NULL
+                AND PrezzoPromozionale IS NOT NULL
+            )
+        ), -- Assicura che solo uno sconto sia impostato
+        PRIMARY KEY (OffertaId, ProdottoId),
+        FOREIGN KEY (OffertaId) REFERENCES Offerta (OffertaId) ON DELETE CASCADE,
+        FOREIGN KEY (ProdottoId) REFERENCES Prodotto (ProdottoId) ON DELETE CASCADE
+    ) ENGINE = INNODB;
+```
