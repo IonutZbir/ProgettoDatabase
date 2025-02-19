@@ -819,11 +819,11 @@ WHERE
 
 ##### 1. Calcolo delle entrate giornaliere di un negozio
 
-- Determina le entrate totali di un negozio in una specifica giornata.  
+- Determina le entrate totali di un negozio in un dato mese.  
 
 | Concetto  | Costrutto | Accessi | Tipo | Frequenza  |
 |-----------|-----------|---------|------|------------|
-| Entrata   | E         | 1       | S    | 1 / giorno |
+| Entrata   | E         | 1       | S    | 5 / mese   |
 | Negozio   | E         | 1       | S    |            |
 
 ##### 2. Calcolo delle vendite totali per prodotto
@@ -882,13 +882,121 @@ WHERE
 | Feedback   | E         | 1       | S    | 1 / settimana |
 | Dipendente | E         | 1       | S    | 1 / settimana |
 
+##### 8. Trovare il negozio con il maggior numero di prenotazioni in un dato periodo
+
+| Concetto     | Costrutto | Accessi | Tipo | Frequenza     |
+|--------------|-----------|---------|------|---------------|
+| Negozio      | E         | 1       | S    | 1 / settimana |
+| Prenotazione | E         | 1       | S    | 1 / settimana |
+
 ## Query in algebra relazionale
 
 ### 1. Zbirciog
 
+1. **Ottenere tutti i barbieri di un negozio**
+
+    \[
+        \pi_{d.Nome,\ d.Cognome,\ d.Email,\ d.Telefono}
+            \Bigg(
+                \sigma_{
+                    n.Nome = 'Barberia Roma Sud'\ \land\
+                    r.TipoRuolo = 'Barbiere'\ \land\
+                    d.NegozioId = n.NegozioId\ \land\
+                    d.TipoRuolo = r.TipoRuolo
+                }\\
+                \Big(
+                    Dipendente\ d \bowtie Negozio\ n \bowtie Ruolo\ r
+                \Big)
+            \Bigg)
+    \]
+
+2. **Ottenere i prodotti all'interno dell'inventario dei negozi di una zona**
+
+    \[
+    \pi_{p.CodiceBarre,\ p.Nome,\ p.PrezzoUnitario,\ i.Quantità,\ n.Nome,\ z.NomeZona}
+        \Bigg(
+            \sigma_{
+                z.NomeZona = 'Roma Sud'\ \land\
+                i.CodiceBarre = p.CodiceBarre\ \land\
+                i.CodNegozio = n.CodNegozio\ \land\
+                n.NomeZona = z.NomeZona
+            }\\
+            \Big(
+                Prodotto\ p \bowtie Inventario\ i \bowtie Negozio\ n \bowtie Zona\ z
+            \Big)
+        \Bigg)
+    \]
+
 ### 2. Cosciotti
 
+1. **Trovare tutti gli ordini effettuati da un cliente specifico**
+
+    \[
+    \pi_{o.CodOrdine,\ o.DataOrdine}
+        \Bigg(
+            \sigma_{
+                c.Nome = 'Mario'\ \land\
+                c.Cognome = 'Rossi'\ \land\
+                c.ClienteId = o.ClienteId\
+            }
+            \Big(
+                Cliente\ c \bowtie Ordine\ o
+            \Big)
+        \Bigg)
+    \]
+
+2. **Trovare le prenotazioni di un cliente specifico mostrando il dipendente e il negozio**
+
+    \[
+    \pi_{d.Nome,\ d.Cognome,\ n.Nome,\ p.DataPrenotazione}
+        \Bigg(
+            \sigma_{
+                c.Nome = 'Mario'\ \land\
+                c.Cognome = 'Rossi'\ \land\
+                p.ClienteId = c.ClienteId\ \land\
+                p.NegozioId = n.NegozioId\ \land\
+                p.DipendenteId = d.DipendenteId\
+            }\\
+            \Big(
+                Prenotazione\ p \bowtie Cliente\ c \bowtie
+                Negozio\ n \bowtie Dipendente\ d
+            \Big)
+        \Bigg)
+    \]
+
 ### 3. Porzia
+
+1. **Ottenere tutti i dipendenti di un negozio**
+
+    \[
+    \pi_{d.Nome, d.Cognome, d.DataAssunzione}
+        \Bigg(
+            \sigma_{
+                n.Nome = 'Barberia Roma Sud'\ \land\
+                d.CodNegozio = n.CodNegozio\
+            }
+            \Big(
+                Dipendente\ d \bowtie Negozio\ n
+            \Big)
+        \Bigg)
+    \]
+
+2. **Ottenere i nomi e i prezzi di tutti i prodotti che possono essere messi in vendità di un dato negozio**
+
+    \[
+    \pi_{p.Nome, p.PrezzoUnitario}
+        \Bigg(
+            \sigma_{
+                p.Vendibile = 1\ \land\
+                n.Nome = 'Barberia Roma Sud'\ \land\
+                p.CodiceBarre = i.CodiceBarre\ \land\
+                i.CodNegozio = n.CodNegozio
+            }\\
+            \Big(
+                Prodotto\ p \bowtie Inventario\ i \bowtie Negozio\ n
+            \Big)
+        \Bigg)
+    \]
 
 ## Schema Fisico
 

@@ -198,3 +198,6 @@ FROM
 WHERE
     d.nome = 'Stefani'
     AND d.cognome = 'Gianinazzi';
+
+--- Determina le entrate totali di un negozio in una specifica giornata.
+
