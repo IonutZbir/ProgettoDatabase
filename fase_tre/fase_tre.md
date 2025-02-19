@@ -1094,6 +1094,88 @@ WHERE
 | Negozio      | E         | 1       | S    | 1 / settimana |
 | Prenotazione | E         | 1       | S    | 1 / settimana |
 
+```Sql
+SELECT
+    n.nome AS NomeNegozio,
+    COUNT(p.PrenotazioneId) AS NumeroPrenotazioni
+FROM
+    Negozio n
+    JOIN Prenotazione p on p.NegozioId = n.NegozioId
+WHERE
+    p.dataPrenotazione BETWEEN '2024-11-01' AND '2024-12-01'
+GROUP BY
+    n.NegozioId
+ORDER BY
+    NumeroPrenotazioni DESC
+LIMIT
+    3;
+```
+
+| NomeNegozio       | NumeroPrenotazioni |
+|-------------------|--------------------|
+| Barberia Roma Sud | 9                  |
+
+##### 9. Individuare i primi 3 negozi con il più alto tasso di cancellazione delle prenotazioni
+
+| Concetto     | Costrutto | Accessi | Tipo | Frequenza     |
+|--------------|-----------|---------|------|---------------|
+| Negozio      | E         | 1       | S    | 1 / settimana |
+| Prenotazione | E         | 1       | S    | 1 / settimana |
+
+```Sql
+SELECT
+    n.nome AS NomeNegozio,
+    COUNT(p.PrenotazioneId) AS NumeroPrenotazioniAnnullate
+FROM
+    Negozio n
+    JOIN Prenotazione p on p.NegozioId = n.NegozioId
+WHERE
+    p.stato = 'Annullato'
+GROUP BY
+    n.NegozioId
+ORDER BY
+    NumeroPrenotazioniAnnullate DESC
+LIMIT
+    3;
+```
+
+| NomeNegozio          | NumeroPrenotazioniAnnullate |
+|----------------------|-----------------------------|
+| Barberia Roma Sud    | 17                          |
+| Torverbarber Firenze | 15                          |
+| Torverbarber EUR     | 14                          |
+
+##### 10. Identificare il dipendente con la migliore valutazione media nei feedback dei clienti
+
+| Concetto     | Costrutto | Accessi | Tipo | Frequenza     |
+|--------------|-----------|---------|------|---------------|
+| Dipendente   | E         | 1       | S    | 1 / settimana |
+| Prenotazione | E         | 1       | S    | 1 / settimana |
+| Feedback     | E         | 1       | S    | 1 / settimana |
+
+```Sql
+SELECT
+    d.nome,
+    d.cognome,
+    ROUND(AVG(f.valutazione), 1) AS MediaValutazioni
+FROM
+    Dipendente d
+    JOIN Prenotazione p ON d.DipendenteId = p.DipendenteId
+    JOIN Feedback f ON f.PrenotazioneId = p.PrenotazioneId
+WHERE
+    p.stato = 'Completato'
+GROUP BY
+    d.DipendenteId
+ORDER BY
+    MediaValutazioni DESC
+LIMIT
+    1;
+```
+
+| Nome  | Cognome | MediaValutazioni |
+|-------|---------|------------------|
+| Mario | Rossi   | 4.23             |
+
 ## Query in algebra relazionale
 
 ### 1. Zbirciog

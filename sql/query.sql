@@ -2,7 +2,7 @@
 USE Torverbarber;
 
 CREATE VIEW
-    Dsiposizione_Turni AS
+    Disposizione_Turni AS
 SELECT
     d.DipendenteId AS Matricola,
     d.Nome,
@@ -60,7 +60,7 @@ SELECT
 FROM
     Ordine o
     JOIN DettaglioOrdine d ON d.OrdineId = o.OrdineId
-    JOIN Prodotto p ON p.ProdottoID = d.ProdottoID
+    JOIN Prodotto p ON p.ProdottoId = d.ProdottoId
     JOIN Cliente c ON o.ClienteId = c.ClienteId
 WHERE
     c.nome = 'Tullio'
@@ -155,7 +155,7 @@ FROM
     JOIN Prodotto p ON a.ProdottoId = p.ProdottoId
 WHERE
     p.nome = 'Rasoio Philips'
-    AND p.Vendibille = 1;
+    AND p.vendibille = 1;
 
 --- Elenco delle recensioni scritte da un cliente con valutazione, commento e data.  
 USE Torverbarber;
@@ -174,9 +174,10 @@ FROM
     JOIN Prenotazione p ON p.PrenotazioneId = f.PrenotazioneId
 WHERE
     c.nome = 'Mario'
-    and c.cognome = 'Rossi'
-    --- Visualizzare tutti i feedback relativi ad un dipendente
-    USE Torverbarber;
+    and c.cognome = 'Rossi';
+
+--- Visualizzare tutti i feedback relativi ad un dipendente
+USE Torverbarber;
 
 CREATE VIEW
     Feedback_Per_Dipendente AS
@@ -185,7 +186,7 @@ SELECT
     p.dataPrenotazione,
     p.oraPrenotazione,
     c.nome AS NomeCliente,
-    c.cognome CognomeCliente,
+    c.cognome AS CognomeCliente,
     f.valutazione,
     f.commento,
     f.dataFeedback
@@ -282,7 +283,7 @@ FROM
     LEFT JOIN Ordine o ON c.ClienteId = o.ClienteId
     AND o.stato = 'Consegnato'
     LEFT JOIN DettaglioOrdine d ON o.OrdineId = d.OrdineId
-    LEFT JOIN Prodotto p ON d.ProdottoId = p.CodiceBarre
+    LEFT JOIN Prodotto p ON d.ProdottoId = p.ProdottoId
     LEFT JOIN Prenotazione p1 ON p1.ClienteId = c.ClienteId
     AND p1.stato = 'Completato'
     LEFT JOIN Servizio s ON p1.ServizioId = s.ServizioId
@@ -308,7 +309,8 @@ SELECT
 FROM
     Cliente c
     JOIN Ordine o ON c.ClienteId = o.ClienteId
-    AND o.dataOrdine BETWEEN '2023-12-31' AND '2024-12-31'
+    AND o.dataOrdine DATE_SUB (CURDATE (), INTERVAL 1 YEAR)
+    AND CURDATE ()
 GROUP BY
     c.ClienteId,
     c.nome,
@@ -335,3 +337,59 @@ FROM
 WHERE
     f.valutazione >= 4
     AND r.tipoRuolo = 'Barbiere';
+
+--- Trovare il negozio con il maggior numero di prenotazioni in un dato periodo
+USE Torverbarber;
+
+SELECT
+    n.nome AS NomeNegozio,
+    COUNT(p.PrenotazioneId) AS NumeroPrenotazioni
+FROM
+    Negozio n
+    JOIN Prenotazione p on p.NegozioId = n.NegozioId
+WHERE
+    p.dataPrenotazione BETWEEN '2024-11-01' AND '2024-12-01'
+GROUP BY
+    n.NegozioId
+ORDER BY
+    NumeroPrenotazioni DESC
+LIMIT
+    1;
+
+--- Individuare i primi 3 negozi con il più alto tasso di cancellazione delle prenotazioni
+USE Torverbarber;
+
+SELECT
+    n.nome AS NomeNegozio,
+    COUNT(p.PrenotazioneId) AS NumeroPrenotazioniAnnullate
+FROM
+    Negozio n
+    JOIN Prenotazione p on p.NegozioId = n.NegozioId
+WHERE
+    p.stato = 'Annullato'
+GROUP BY
+    n.NegozioId
+ORDER BY
+    NumeroPrenotazioniAnnullate DESC
+LIMIT
+    3;
+
+--- Identificare il dipendente con la migliore valutazione media nei feedback dei clienti
+USE Torverbarber;
+
+SELECT
+    d.nome,
+    d.cognome,
+    ROUND(AVG(f.valutazione), 1) AS MediaValutazioni
+FROM
+    Dipendente d
+    JOIN Prenotazione p ON d.DipendenteId = p.DipendenteId
+    JOIN Feedback f ON f.PrenotazioneId = p.PrenotazioneId
+WHERE
+    p.stato = 'Completato'
+GROUP BY
+    d.DipendenteId
+ORDER BY
+    MediaValutazioni DESC
+LIMIT
+    1;
