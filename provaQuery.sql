@@ -106,3 +106,11 @@ JOIN Prenotazione p1 ON p1.ClienteId = c.ClienteId
 JOIN Servizio s ON p1.ServizioId = s.ServizioId
 GROUP BY c.ClienteId
 WHERE o.stato = 'Consegnato', p1.stato = 'Completato', o.dataOrdine BETWEEN '2024-12-01' AND '2024-06-01', p1,dataPrenotazione BETWEEN '2024-12-01' AND '2024-06-01';
+
+USE Torverbarber;
+
+SELECT c.nome, c.cognome, COUNT(o.OrdineId) AS OrdiniTotali
+FROM Cliente c 
+JOIN Ordine o ON c.ClienteId = o.ClienteId
+WHERE (SELECT COUNT(o.OrdineId) FROM Ordine o) > 3
+GROUP BY c.ClienteId;
