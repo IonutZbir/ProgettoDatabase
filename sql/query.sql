@@ -269,6 +269,8 @@ FROM
     Prenotazione p;
 
 --- Elenco dei clienti con il totale speso negli ultimi sei mesi
+USE Torverbarber;
+
 SELECT
     c.nome,
     c.cognome,
@@ -297,8 +299,28 @@ ORDER BY
     TotaleSpeso DESC;
 
 --- Lista dei clienti che hanno acquistato almeno 3 volte nell’ultimo anno
+USE Torverbarber;
+
+SELECT
+    c.nome,
+    c.cognome,
+    COUNT(o.OrdineId) AS OrdiniTotali
+FROM
+    Cliente c
+    JOIN Ordine o ON c.ClienteId = o.ClienteId
+WHERE
+    (
+        SELECT
+            COUNT(o.OrdineId)
+        FROM
+            Ordine o
+    ) > 3
+GROUP BY
+    c.ClienteId;
 
 --- Elenco di tutti i feedback con valutazione maggiore di 4
+USE Torverbarber;
+
 SELECT
     d.nome,
     d.cognome,
