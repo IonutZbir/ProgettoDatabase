@@ -64,3 +64,33 @@ JOIN Cliente c ON f.ClienteId = c.ClienteId
 JOIN Prenotazione p ON f.PrenotazioneId = p.PrenotazioneId
 JOIN Dipendente d ON d.DipendenteId = p.DipendenteId
 WHERE c.nome = '' and c.cognome = '';
+
+USE Torverbarber;
+
+SELECT SUM(e.importo) AS TotaleEntrate, n.nome
+FROM Entrata e
+JOIN Negozio n on e.NegozioId = n.NegozioId
+WHERE e.dataEntrata BETWEEN '2020-11-01' AND '2020-12-01'
+GROUP BY n.NegozioId;
+
+USE Torverbarber;
+
+CREATE VIEW PezziVenduti AS
+SELECT p.nome, SUM(d.quantita) AS PezziVenduti
+FROM Prodotto p
+JOIN DettaglioOrdine d ON d.ProdottoId = p.ProdottoId
+JOIN Ordine o ON o.OrdineId = d.OrdineId
+WHERE o.stato = 'Consegnato'
+GROUP BY p.nome;
+
+USE Torverbarber;
+
+SELECT DATE_FORMAT(p.dataPrenotazione, '%Y-%m') AS mesePrenotazione, d.nome, d.cognome, AVG(p.PrenotazioneId) AS mediaPrenotazioni
+FROM Dipendente d 
+JOIN Prenotazione p ON p.DipendenteId = d.DipendenteId
+GROUP BY d.DipendenteId, mesePrenotazione;
+
+USE Torverbarber;
+
+SELECT ((SELECT COUNT(p.PrenotazioneId) FROM Prenotazione p WHERE p.stato = 'Annullato') / COUNT(p.PrenotazioneId)) AS PrenotazioniTotalirenotazioniTotali
+FROM Prenotazione p
