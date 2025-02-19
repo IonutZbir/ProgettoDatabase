@@ -826,6 +826,31 @@ WHERE
 | Entrata   | E         | 1       | S    | 5 / mese   |
 | Negozio   | E         | 1       | S    |            |
 
+```Sql
+SELECT
+    n.nome AS Nome_Negozio,
+    SUM(e.importo) AS Totale_Entrate
+FROM
+    Entrata e
+    JOIN Negozio n on e.NegozioId = n.NegozioId
+WHERE
+    e.dataEntrata BETWEEN '2024-11-01' AND '2024-12-01'
+GROUP BY
+    n.NegozioId;
+```
+
+| Nome Negozio              | Totale Entrate (€) |
+|---------------------------|-------------------:|
+| Barberia Eleganza Milano  |            5093.79 |
+| Barberia Classica Roma    |            1142.77 |
+| Taglio Perfetto Firenze   |            1073.46 |
+| Stile Uomo Napoli         |            4247.02 |
+| Barbershop Moderno Torino |            1702.23 |
+| Il Barbiere di Venezia    |            2233.87 |
+| Tagli & Sfumature Bologna |            1255.95 |
+| Barberia Elite Genova     |            1007.58 |
+| Tradizione & Stile Bari   |             821.43 |
+
 ##### 2. Calcolo delle vendite totali per prodotto
 
 - Conta quanti pezzi di un determinato prodotto sono stati venduti.  
@@ -836,6 +861,34 @@ WHERE
 | DettaglioOrdine | R         | 1       | S    |               |
 | Prodotto        | E         | 1       | S    |               |
 
+```Sql
+SELECT
+    p.nome AS Prodotto,
+    p.codiceBarre,
+    SUM(d.quantita) AS PezziVenduti
+FROM
+    Prodotto p
+    JOIN DettaglioOrdine d ON d.ProdottoId = p.ProdottoId
+    JOIN Ordine o ON o.OrdineId = d.OrdineId
+WHERE
+    o.stato = 'Consegnato'
+GROUP BY
+    p.nome;
+```
+
+| Prodotto               |  Codice Barre | Pezzi Venduti |
+|------------------------|--------------:|--------------:|
+| Shampoo Uomo Fresh     | 6604601849613 |             4 |
+| Cera Modellante Forte  | 8756546350704 |             7 |
+| Olio da Barba Deluxe   | 4169691194002 |             6 |
+| Rasoio di Precisione   | 5166679300799 |            10 |
+| Crema Pre-Barba        | 9788071448938 |             7 |
+| Dopobarba Lenitivo     | 2106343388732 |            10 |
+| Balsamo per Barba      | 9493453090376 |             2 |
+| Panno Caldo Barba      | 7877591822174 |             3 |
+| Spray Fissante Capelli | 6794066686714 |             6 |
+| Schiuma da Barba       | 8110632988521 |             5 |
+
 ##### 3. Numero medio di appuntamenti per dipendente al mese
 
 - Calcola la media delle prenotazioni gestite da ogni dipendente su base mensile.  
@@ -845,6 +898,34 @@ WHERE
 | Prenotazione | E         | 1       | S    | 1 / mese   |
 | Dipendente   | E         | 1       | S    |            |
 
+```Sql
+SELECT
+    DATE_FORMAT (p.dataPrenotazione, '%M %Y') AS mesePrenotazione,
+    d.nome,
+    d.cognome,
+    ROUND(
+        COUNT(p.PrenotazioneId) / COUNT(
+            DISTINCT DATE_FORMAT (p.dataPrenotazione, '%Y-%m')
+        ),
+        1
+    ) AS mediaPrenotazioni
+FROM
+    Dipendente d
+    JOIN Prenotazione p ON p.DipendenteId = d.DipendenteId
+GROUP BY
+    d.DipendenteId,
+    mesePrenotazione;
+```
+
+| mesePrenotazione | nome   | cognome    | mediaPrenotazioni |
+|------------------|--------|------------|------------------:|
+| August 2024      | Silvia | Pascarella |              85.4 |
+| January 2025     | Silvia | Pascarella |              64.6 |
+| March 2024       | Silvia | Pascarella |              97.4 |
+| May 2024         | Silvia | Pascarella |             120.6 |
+| November 2024    | Silvia | Pascarella |             160.7 |
+| August 2024      | Flavio | Mezzetta   |              96.1 |
+
 ##### 4. Percentuale di prenotazioni cancellate rispetto al totale
 
 - Determina il rapporto tra prenotazioni cancellate e prenotazioni totali.  
@@ -853,16 +934,85 @@ WHERE
 |--------------|-----------|---------|------|------------|
 | Prenotazione | E         | 1       | S    | 1 / mese   |
 
+```Sql
+USE Torverbarber;
+
+SELECT
+    COUNT(*) AS TotalePrenotazioni,
+    COUNT(
+        CASE
+            WHEN p.stato = 'Annullato' THEN 1
+        END
+    ) AS PrenotazioniCancellate,
+    (
+        COUNT(
+            CASE
+                WHEN p.stato = 'Annullato' THEN 1
+            END
+        ) * 100.0
+    ) / NULLIF(COUNT(*), 0) AS PercentualeCancellazioni
+FROM
+    Prenotazione p;
+```
+
+| TotalePrenotazioni | PrenotazioniCancellate | PercentualeCancellazioni |
+|--------------------:|----------------------:|-------------------------:|
+| 1000               | 204                    | 20.40000                 |
+
 ##### 5. Elenco dei clienti con il totale speso negli ultimi sei mesi
 
 - Calcola la spesa totale di ciascun cliente considerando gli ultimi sei mesi.  
 
-| Concetto        | Costrutto | Accessi | Tipo | Frequenza  |
-|-----------------|-----------|---------|------|------------|
-| Cliente         | E         | 1       | S    | 1 / mese   |
-| Ordine          | E         | 1       | S    |            |
-| DettaglioOrdine | R         | 1       | S    |            |
-| Prodotto        | E         | 1       | S    |            |
+| Concetto        | Costrutto | Accessi | Tipo | Frequenza |
+|-----------------|-----------|---------|------|-----------|
+| Cliente         | E         | 1       | S    | 1 / mese  |
+| Ordine          | E         | 1       | S    |           |
+| DettaglioOrdine | R         | 1       | S    |           |
+| Prodotto        | E         | 1       | S    |           |
+| Prenotazione    | E         | 1       | S    |           |
+| Servizio        | E         | 1       | S    |           |
+
+```Sql
+SELECT
+    c.nome,
+    c.cognome,
+    (
+        COALESCE(SUM(d.quantita * p.prezzo), 0) + COALESCE(SUM(s.prezzo), 0)
+    ) AS TotaleSpeso
+FROM
+    Cliente c
+    LEFT JOIN Ordine o ON c.ClienteId = o.ClienteId
+    AND o.stato = 'Consegnato'
+    LEFT JOIN DettaglioOrdine d ON o.OrdineId = d.OrdineId
+    LEFT JOIN Prodotto p ON d.ProdottoId = p.CodiceBarre
+    LEFT JOIN Prenotazione p1 ON p1.ClienteId = c.ClienteId
+    AND p1.stato = 'Completato'
+    LEFT JOIN Servizio s ON p1.ServizioId = s.ServizioId
+WHERE
+    (
+        o.dataOrdine BETWEEN '2024-06-01' AND '2024-12-01'
+        OR p1.dataPrenotazione BETWEEN '2024-06-01' AND '2024-12-01'
+    )
+GROUP BY
+    c.ClienteId,
+    c.nome,
+    c.cognome
+ORDER BY
+    TotaleSpeso DESC;
+```
+
+| nome         | cognome   | TotaleSpeso (€) |
+|--------------|-----------|----------------:|
+| Luchino      | Boitani   |          205.00 |
+| Flavio       | Moresi    |          195.00 |
+| Rosario      | Gentilini |          180.00 |
+| Lidia        | Piccinni  |          180.00 |
+| Chiara       | Ferraris  |          160.00 |
+| Alessia      | Cardano   |          150.00 |
+| Alessio      | Cimarosa  |          150.00 |
+| Michelangelo | Spinelli  |          125.00 |
+| Sonia        | Sgalambro |          120.00 |
+| Antonello    | Pertini   |          120.00 |
 
 ##### 6. Lista dei clienti che hanno acquistato almeno 3 volte nell’ultimo anno
 
@@ -873,6 +1023,34 @@ WHERE
 | Cliente  | E         | 1       | S    | 1 / mese   |
 | Ordine   | E         | 1       | S    |            |
 
+```Sql
+SELECT
+    c.nome,
+    c.cognome,
+    COUNT(o.OrdineId) AS OrdiniTotali
+FROM
+    Cliente c
+    JOIN Ordine o ON c.ClienteId = o.ClienteId
+    AND o.dataOrdine BETWEEN '2023-12-31' AND '2024-12-31'
+GROUP BY
+    c.ClienteId,
+    c.nome,
+    c.cognome
+HAVING
+    COUNT(o.OrdineId) >= 3
+ORDER BY
+    OrdiniTotali DESC;
+```
+
+| nome     | cognome    | OrdiniTotali |
+|----------|------------|-------------:|
+| Lidia    | Piccinni   |           11 |
+| Sante    | Forza      |           10 |
+| Pomponio | Bernardini |           10 |
+| Tiziano  | Battelli   |           10 |
+| Angelo   | Serlupi    |           10 |
+| Emma     | Cociarelli |           10 |
+
 ##### 7. Elenco di tutti i feedback con valutazione maggiore di 4
 
 - Mostra i dipendenti che hanno ricevuto un feedback con valutazione superiore a 4.  
@@ -881,6 +1059,33 @@ WHERE
 |------------|-----------|---------|------|---------------|
 | Feedback   | E         | 1       | S    | 1 / settimana |
 | Dipendente | E         | 1       | S    | 1 / settimana |
+
+```Sql
+SELECT
+    d.nome,
+    d.cognome,
+    f.valutazione,
+    f.dataFeedback,
+    f.commento
+FROM
+    Dipendente d
+    JOIN Prenotazione p ON p.DipendenteId = d.DipendenteId
+    JOIN Ruolo r ON r.RuoloId = d.RuoloId
+    JOIN Feedback f ON p.PrenotazioneId = f.FeedbackId
+WHERE
+    f.valutazione >= 4
+    AND r.tipoRuolo = 'Barbiere';
+```
+
+| nome        | cognome     | valutazione | dataFeedback | commento                                                                            |
+|-------------|-------------|-------------|--------------|-------------------------------------------------------------------------------------|
+| Lisa        | Valguarnera | 4           | 2024-10-13   | Servizio eccellente, ma il tempo di attesa è stato un po' lungo.                    |
+| Leone       | Aloisio     | 4           | 2024-08-26   | Atmosfera accogliente e personale cortese, ma la prenotazione ha subito un ritardo. |
+| Romina      | Mazzocchi   | 4           | 2024-08-24   | Taglio ben eseguito, ma avrei preferito più attenzione ai dettagli.                 |
+| Raffaellino | Combi       | 4           | 2024-07-02   | Esperienza positiva, ma migliorerei la pulizia della postazione.                    |
+| Ivo         | Cavalcanti  | 5           | 2024-04-23   | Perfetto! Personale professionale e risultato impeccabile.                          |
+| Tonia       | Giradello   | 4           | 2024-09-21   | Il servizio è stato ottimo, ma il prezzo un po' alto rispetto alla media.           |
+| Amedeo      | Tamburi     | 5           | 2024-06-20   | Eccezionale! Staff disponibile e qualità del servizio sopra le aspettative.         |
 
 ##### 8. Trovare il negozio con il maggior numero di prenotazioni in un dato periodo
 

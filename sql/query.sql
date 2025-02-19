@@ -308,15 +308,15 @@ SELECT
 FROM
     Cliente c
     JOIN Ordine o ON c.ClienteId = o.ClienteId
-WHERE
-    (
-        SELECT
-            COUNT(o.OrdineId)
-        FROM
-            Ordine o
-    ) > 3
+    AND o.dataOrdine BETWEEN '2023-12-31' AND '2024-12-31'
 GROUP BY
-    c.ClienteId;
+    c.ClienteId,
+    c.nome,
+    c.cognome
+HAVING
+    COUNT(o.OrdineId) >= 3
+ORDER BY
+    OrdiniTotali DESC;
 
 --- Elenco di tutti i feedback con valutazione maggiore di 4
 USE Torverbarber;
