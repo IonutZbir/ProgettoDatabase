@@ -94,3 +94,15 @@ USE Torverbarber;
 
 SELECT ((SELECT COUNT(p.PrenotazioneId) FROM Prenotazione p WHERE p.stato = 'Annullato') / COUNT(p.PrenotazioneId)) AS PrenotazioniTotalirenotazioniTotali
 FROM Prenotazione p
+
+USE Torverbarber;
+
+SELECT c.nome, c.cognome, ((SUM(d.quantita) * p.prezzo) + (s.prezzo * COUNT(p1.PrenotazioneId)))
+FROM Cliente c
+JOIN Ordine o ON c.ClienteId = o.ClienteId
+JOIN DettaglioOrdine d ON o.OrdineId = d.OrdineId
+JOIN Prodotto p ON d.ProdottoId = p.ProdottoId
+JOIN Prenotazione p1 ON p1.ClienteId = c.ClienteId
+JOIN Servizio s ON p1.ServizioId = s.ServizioId
+GROUP BY c.ClienteId
+WHERE o.stato = 'Consegnato', p1.stato = 'Completato', o.dataOrdine BETWEEN '2024-12-01' AND '2024-06-01', p1,dataPrenotazione BETWEEN '2024-12-01' AND '2024-06-01';
