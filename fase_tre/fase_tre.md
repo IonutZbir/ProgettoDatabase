@@ -17,7 +17,7 @@ L'applicazione **TORVERBARBER** mira a centralizzare le operazioni giornaliere d
 ## Obiettivi del Progetto
 
 1. **Ottimizzare l'efficienza operativa**: garantire una gestione fluida delle prenotazioni, dei turni e delle vendite.
-2. **Migliorare l’esperienza del cliente**: offrire strumenti digitali per prenotazioni, notifiche e personalizzazione dei servizi.
+2. **Migliorare l’esperienza del cliente**: offrire strumenti digitali per prenotazioni, acquisti online e personalizzazione dei servizi.
 3. **Incrementare la fidelizzazione**: fornendo promozioni mirate e un’interfaccia che incentivi il ritorno dei clienti.
 4. **Analisi strategiche**: fornire report dettagliati per migliorare le prestazioni aziendali.
 
@@ -107,14 +107,13 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
    - **3.2** I turni devono specificare un orario di **inizio** e di **fine**.
 
 4. **Prenotazioni**
-   - **6.1** Ogni prenotazione deve includere:
+   - **4.1** Ogni prenotazione deve includere:
      - Un **cliente**.
      - Un **barbiere**.
      - Un **negozio**.
-   - **6.2** Le prenotazioni devono essere effettuate per orari all'interno degli orari di apertura del negozio.
-   - **6.3** Ogni prenotazione deve includere almeno un **servizio**.
-   - **6.4** Lo stato di una prenotazione deve essere uno tra: *Confermata*, *Annullata* o *Completata*.
-   - **6.8** La prenotazione rappresente il turno del cliente.
+   - **4.2** Le prenotazioni devono essere effettuate per orari all'interno degli orari di apertura del negozio.
+   - **4.3** Ogni prenotazione deve includere almeno un **servizio**.
+   - **4.4** Lo stato di una prenotazione deve essere uno tra: *Confermata*, *Annullata* o *Completata*.
 
 5. **Entrata**
    - **5.1** Ogni entrata deve avere:
@@ -137,7 +136,7 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
 
 7. **Offerte**
     - **7.1** Ogni offerta deve essere valida per un periodo di tempo specifico, con date di inizio e fine.
-    - **7.2** Le offerte possono essere associate a uno o più negozi e/o prodotti specifici.
+    - **7.2** Le offerte possono essere associate a uno o più prodotti specifici.
     - **7.3** Gli sconti devono essere applicabili solo ai prodotti inclusi nell'offerta.
 
 8. **Ruoli**
@@ -147,8 +146,7 @@ La catena di negozi **TORVERBARBER** adotta una struttura gerarchica in cui ogni
 9. **Ordini**
     - **9.1** Gli ordini possono essere effettuati solo da clienti registrati.
     - **9.2** Ogni ordine deve includere almeno un prodotto disponibile nell'inventario.
-    - **9.3** Gli ordini possono essere spediti tramite corrieri oppure il cliente può acquistare il prodotto andando nel negozio.
-    - **9.4** Gli ordini devono riportare lo stato: *In Elaborazione*, *Spedito*, *Consegnato*, o *Annullato*.
+    - **9.3** Gli ordini devono riportare lo stato: *In Elaborazione*, *Spedito*, *Consegnato*, o *Annullato*.
 
 10. **Relazioni Gerarchiche**
     - **10.1** Ogni negozio deve avere un **manager** assegnato.
